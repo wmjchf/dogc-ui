@@ -2,7 +2,7 @@ import React from "react"
 import * as dayjs from "dayjs"
 export const App = () => {
   const execute = () => {
-    import(/*webpackChunkName:'test'*/ "./utls/index").then(
+    import(/*webpackChunkName:'test'*/ "./utils/index").then(
       ({ formatDogWang }) => {
         formatDogWang()
       }

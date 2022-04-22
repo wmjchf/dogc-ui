@@ -101,6 +101,8 @@ JavaScript 被解释、编译、解析和执行。脚本被解析为抽象语法
 - CSS <link>资源异步下载，下载和解析都不会阻塞构建 dom 树<link href='./style.css' rel='stylesheet'/>，但会阻塞页面的渲染。
 - JS 资源同步下载，下载和执行都会阻塞构建 dom 树<script src='./index.js'/>
 - 另外一点就是，CSS <link>资源异步下载，下载和解析也不会阻塞 js 资源的下载和执行，但是当 js 有操作 cssom 树时，js 执行就会被阻塞，这时 CSS 有就阻塞了 HTML 的解析。
+  
+![08a0f790380d6d8d6c5e9642ae22a78e](https://user-images.githubusercontent.com/36124772/164715633-c73b005e-6c50-435f-bdc6-15bcd177b762.png)
 
 # js 脚本引入时 async 和 defer 有什么差别
 
@@ -109,3 +111,5 @@ JavaScript 被解释、编译、解析和执行。脚本被解析为抽象语法
 - 没有 defer 或 async，浏览器会立即加载并执行指定的脚本
 - async 属性表示异步执行引入的 JavaScript，经加载好，就会开始执行
 - defer 属性表示延迟到 DOM 解析完成，再执行引入的 JS
+  
+![2a42d577992177ce858a0665a696502e](https://user-images.githubusercontent.com/36124772/164715683-cefe2dc3-8257-4549-ac01-cf3794774f4b.png)

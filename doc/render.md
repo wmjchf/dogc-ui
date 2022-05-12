@@ -31,9 +31,11 @@ JS 引擎线程和渲染线程互斥，即同时只能有一个线程在执行�
 
 <img width="763" alt="截屏2022-05-12 12 57 23" src="https://user-images.githubusercontent.com/36124772/167996663-eaea394f-c949-4e69-ab04-babb58d5bd6e.png">
 
-### life of frame
+## life of frame
 
 页面的内容都是一帧一帧绘制出来的，浏览器刷新率代表浏览器一秒绘制多少帧。原则上说 1s 内绘制的帧数也多，画面表现就也细腻。目前浏览器大多是 60Hz（60 帧/s），每一帧耗时也就是在 16.6ms 左右。那么在这一帧的（16.6ms） 过程中浏览器又干了些什么呢？
+
+![E2jyGxNbFpz7QXg](https://user-images.githubusercontent.com/36124772/167997363-b052783a-a5d8-41aa-838a-18df6771c2af.png)
 
 - 接受输入事件
 - 执行事件回调
@@ -42,6 +44,8 @@ JS 引擎线程和渲染线程互斥，即同时只能有一个线程在执行�
 - 页面布局，样式计算
 - 绘制渲染
 - 执行 RIC (RequestIdelCallback)
+
+
 
 ## TCP 慢开始 / 14kb 规则
 

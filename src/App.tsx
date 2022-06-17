@@ -1,5 +1,5 @@
-import React from "react";
 import * as dayjs from "dayjs";
+
 export const App = () => {
   const execute = () => {
     import(/*webpackChunkName:'test'*/ "./utils/index").then(
@@ -9,7 +9,7 @@ export const App = () => {
     );
   };
   return (
-    <div class="rect" onClick={execute}>
+    <div className="rect" onClick={execute}>
       {dayjs().format("YYYY-MM-DD")}
     </div>
   );

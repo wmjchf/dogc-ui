@@ -1,9 +1,10 @@
 {
-  "name": "html5",
+  "name": "ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build:ui": "rollup -c ./packages/ui/rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:pro": "webpack --config ./webpack/dev.config.js",
     "build:dev": "webpack server --config ./webpack/dev.config.js",
@@ -12,6 +13,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/plugin-transform-runtime": "^7.17.0",
@@ -20,6 +25,10 @@
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-typescript": "^8.3.3",
+    "@types/react": "^18.0.14",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
     "autoprefixer": "^10.4.4",
@@ -38,6 +47,7 @@
     "mini-css-extract-plugin": "^2.6.0",
     "postcss": "^8.4.12",
     "postcss-loader": "^6.2.1",
+    "rollup": "^2.75.6",
     "style-loader": "^3.3.1",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
@@ -47,11 +57,10 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.9",
-    "@babel/runtime-corejs3": "^7.17.9",
-    "core-js": "^3.21.1",
+    "@babel/runtime-corejs3": "^7.18.3",
     "dayjs": "^1.11.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "ui": "1.0.0"
   }
 }

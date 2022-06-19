@@ -1,6 +1,6 @@
 import React from "react";
 
-import ReactDom from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { App } from "./App";
 
@@ -8,4 +8,6 @@ import "@/style/index.less";
 
 import "@/style/rect.less";
 
-ReactDom.render(<App></App>, document.querySelector("#app"));
+const root = createRoot(document.querySelector("#app"));
+
+root.render(<App></App>);

@@ -9,5 +9,15 @@
     ],
     "@babel/preset-react",
     "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "ui", // 包名
+        "libraryDirectory": "es", // 目录，默认 lib
+        "style": true // 是否引入 style
+      }
+    ]
   ]
 }

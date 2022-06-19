@@ -1,1 +1,4 @@
 node_modules
+packages/ui/cjs
+packages/ui/es
+.DS_Store

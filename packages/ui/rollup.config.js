@@ -1,26 +1,16 @@
 import path from "path";
-import fs from "fs";
 import babel from "@rollup/plugin-babel";
 import typescript from "@rollup/plugin-typescript";
 
-// 多入口文件
-const componentDir = "components";
-const cModuleNames = fs.readdirSync(path.resolve(__dirname, componentDir));
-const componentEntryFiles = cModuleNames
-  .map((name) =>
-    /^[A-Z]\w*/.test(name) ? `${componentDir}/${name}/index.tsx` : undefined
-  )
-  .filter((n) => !!n);
+const ENV = process.env.ENV;
 
 export default {
-  input: [
-    path.resolve(__dirname, "./components/index.ts"),
-    ...componentEntryFiles,
-  ],
+  input: path.resolve(__dirname, "./components/index.ts"),
   output: {
-    format: "esm",
-    dir: path.resolve(__dirname, "./dist"),
+    format: ENV,
+    dir: path.resolve(__dirname, `./${ENV}`),
     preserveModules: true,
+    exports: "auto",
     preserveModulesRoot: "components",
   },
   plugins: [
@@ -33,8 +23,8 @@ export default {
     typescript({
       tsconfig: path.resolve(__dirname, "./tsconfig.json"),
       declaration: true,
-      declarationDir: path.resolve(__dirname, "./dist/libs/types"),
+      declarationDir: path.resolve(__dirname, `./${ENV}/types`),
     }),
   ],
-  external: [/@babel\/runtime/],
+  external: [/@babel\/runtime/, "react"],
 };

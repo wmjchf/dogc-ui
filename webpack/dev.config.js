@@ -1,11 +1,12 @@
-import path from "path";
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require("path");
 
-import { merge } from "webpack-merge";
+const { merge } = require("webpack-merge");
 
-import common from "./common.config.js";
+const common = require("./common.config.js");
 
 const config = merge(common, {
-  mode: "production",
+  mode: "development",
   devtool: false,
   devServer: {
     port: 3000,

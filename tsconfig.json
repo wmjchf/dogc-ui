@@ -3,7 +3,8 @@
     "jsx": "preserve",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "esModuleInterop": true
   },
   "include": ["src/**/*"]
 }

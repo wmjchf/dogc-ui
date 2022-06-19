@@ -1,4 +1,5 @@
-import * as dayjs from "dayjs";
+import { Button } from "ui";
+import React from "react";
 
 export const App = () => {
   const execute = () => {
@@ -10,7 +11,7 @@ export const App = () => {
   };
   return (
     <div className="rect" onClick={execute}>
-      {dayjs().format("YYYY-MM-DD")}
+      <Button text="按钮"></Button>
     </div>
   );
 };

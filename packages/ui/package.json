@@ -5,10 +5,10 @@
   "main": "cjs/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "组件库"
+  ],
   "author": "",
   "license": "ISC",
   "peerDependencies": {

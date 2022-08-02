@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import QRCode from 'qrcode.react';
 import { context, usePrefersColor } from 'dumi/theme';
-import { ROUTE_MSG_TYPE } from '../layouts/demo';
+// import { ROUTE_MSG_TYPE } from '../layouts/demo';
 import './Device.less';
 import type { FC } from 'react';
 
@@ -40,10 +40,10 @@ const Device: FC<IDeviceProps> = ({ url, className }) => {
         .replace(`${(window as any)?.routerBase || ''}`.replace(/\/$/, ''), '');
 
       // update iframe page route via postmessage, to avoid page refresh
-      iframeRef.current?.contentWindow.postMessage(
-        { type: ROUTE_MSG_TYPE, value: pathname },
-        '*',
-      );
+      // iframeRef.current?.contentWindow.postMessage(
+      //   { type: ROUTE_MSG_TYPE, value: pathname },
+      //   '*',
+      // );
     }
   }, [url]);
 

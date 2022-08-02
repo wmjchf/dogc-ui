@@ -17,7 +17,7 @@ const MobileLayout: React.FC<IRouteComponentProps> = ({
     demos,
     meta,
   } = useContext(context);
-  const [demo, setDemo] = useState<IPreviewerComponentProps>(null);
+  const [demo, setDemo] = useState<IPreviewerComponentProps | null>(null);
   const hasMobilePreviewer = meta.hasPreviewer && meta.mobile !== false;
 
   useEffect(() => {

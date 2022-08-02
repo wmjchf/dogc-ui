@@ -65,7 +65,7 @@ const Layout: React.FC<IRouteComponentProps> = ({ children, location }) => {
     Boolean(meta.slugs?.length) &&
     (meta.toc === 'content' || meta.toc === undefined) &&
     !meta.gapless;
-  const isCN = /^zh|cn$/i.test(locale);
+  const isCN = /^zh|cn$/i.test(locale || '');
   const updatedTimeIns = new Date(meta.updatedTime);
   const updatedTime: any = `${updatedTimeIns.toLocaleDateString([], {
     hour12: false,

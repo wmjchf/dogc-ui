@@ -2,11 +2,15 @@ import React, { useRef, useEffect, useState } from 'react';
 import './Example.less';
 
 export default (props: { route: any }) => {
-  const elm = useRef<HTMLIFrameElement>();
+  const elm = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    setHeight(elm.current.contentWindow.document.documentElement.scrollHeight);
+    setHeight(
+      elm.current && elm.current.contentWindow
+        ? elm.current.contentWindow.document.documentElement.scrollHeight
+        : 0,
+    );
   }, [elm]);
 
   return (
@@ -17,7 +21,7 @@ export default (props: { route: any }) => {
           <span>
             <button
               className="__dumi-default-icon"
-              onClick={() => elm.current.contentWindow.location.reload()}
+              onClick={() => elm.current?.contentWindow?.location.reload()}
             />
             <a
               target="_blank"

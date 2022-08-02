@@ -19,7 +19,7 @@ export const highlight = (key: string, title: string) => {
 export default () => {
   const [keywords, setKeywords] = useState<string>('');
   const [items, setItems] = useState([]);
-  const input = useRef<HTMLInputElement>();
+  const input = useRef<HTMLInputElement>(null);
   const result = useSearch(keywords);
 
   const emptySvg = (
@@ -38,9 +38,9 @@ export default () => {
 
   useEffect(() => {
     if (Array.isArray(result)) {
-      setItems(result);
+      setItems(result as any);
     } else if (typeof result === 'function') {
-      result(`.${input.current.className}`);
+      result(`.${input?.current?.className}`);
     }
   }, [result]);
 
@@ -56,7 +56,7 @@ export default () => {
       />
       <ul>
         {items.length > 0 &&
-          items.map((meta) => (
+          items.map((meta: any) => (
             <li key={meta.path} onClick={() => setKeywords('')}>
               <AnchorLink to={meta.path}>
                 {meta.parent?.title && <span>{meta.parent.title}</span>}

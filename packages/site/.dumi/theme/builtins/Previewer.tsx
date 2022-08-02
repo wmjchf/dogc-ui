@@ -14,7 +14,7 @@ import './Previewer.less';
 export const ACTIVE_MSG_TYPE = 'dumi:scroll-into-demo';
 
 export default (props: IPreviewerProps) => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   const { meta } = useContext(context);
   const [previewerProps, setPreviewerProps] = useState<null | IPreviewerProps>(
     null,
@@ -48,7 +48,8 @@ export default (props: IPreviewerProps) => {
       const navHeight = 64;
       // for active by previous title anchor
       const scrollTop = document.documentElement.scrollTop;
-      const refElmTop = ref.current?.getBoundingClientRect().top + scrollTop;
+      const refElmTop =
+        (ref.current?.getBoundingClientRect().top || 0) + scrollTop;
       // do not offset front if the previous element is same the previewer
       const edgeOffset =
         ref.current?.previousElementSibling?.className ===
@@ -62,7 +63,7 @@ export default (props: IPreviewerProps) => {
         (isFirstDemo && scrollTop < refElmTop) ||
         // detect scroll position
         (scrollTop + edgeOffset > refElmTop &&
-          scrollTop + navHeight < refElmTop + ref?.current?.offsetHeight)
+          scrollTop + navHeight < refElmTop + (ref?.current?.offsetHeight || 0))
       ) {
         activeSelf();
       } else {
@@ -121,9 +122,7 @@ export default (props: IPreviewerProps) => {
 
   return (
     <div
-      className={
-        meta.mobile !== false ? '__dumi-default-mobile-previewer' : null
-      }
+      className={meta.mobile !== false ? '__dumi-default-mobile-previewer' : ''}
       onClick={() => {
         if (isInactive) {
           activeSelf();
@@ -134,7 +133,7 @@ export default (props: IPreviewerProps) => {
     >
       {previewerProps && (
         <Previewer
-          className={isActive ? '__dumi-default-previewer-target' : null}
+          className={isActive ? '__dumi-default-previewer-target' : ''}
           {...previewerProps}
         />
       )}

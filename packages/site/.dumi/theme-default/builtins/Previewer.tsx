@@ -75,9 +75,9 @@ function getSourceType(
 }
 
 const Previewer: React.FC<IPreviewerProps> = (oProps) => {
-  const demoRef = useRef();
+  const demoRef = useRef(null);
   const { locale } = useContext(context);
-  const props = useLocaleProps<IPreviewerProps>(locale, oProps);
+  const props = useLocaleProps<IPreviewerProps>(locale || '', oProps);
   const builtinDemoUrl = useDemoUrl(props.identifier);
   const demoUrl = props.demoUrl || builtinDemoUrl;
   const isActive = history?.location.hash === `#${props.identifier}`;
@@ -90,7 +90,7 @@ const Previewer: React.FC<IPreviewerProps> = (oProps) => {
   );
   const [execMotions, isMotionRunning] = useMotions(
     props.motions || [],
-    demoRef.current,
+    demoRef.current || new Element(),
   );
   const [copyCode, copyStatus] = useCopy();
   const [currentFile, setCurrentFile] = useState(() =>
@@ -104,8 +104,8 @@ const Previewer: React.FC<IPreviewerProps> = (oProps) => {
   const currentFileCode =
     props.sources[currentFile][sourceType] ||
     props.sources[currentFile].content;
-  const playgroundUrl = useTSPlaygroundUrl(locale, currentFileCode);
-  const iframeRef = useRef<HTMLIFrameElement>();
+  const playgroundUrl = useTSPlaygroundUrl(locale || '', currentFileCode);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [color] = usePrefersColor();
   const { actionBarRender = (o) => o } = props;
 

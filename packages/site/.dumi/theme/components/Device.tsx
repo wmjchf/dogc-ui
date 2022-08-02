@@ -11,7 +11,7 @@ interface IDeviceProps {
 }
 
 const Device: FC<IDeviceProps> = ({ url, className }) => {
-  const iframeRef = useRef<HTMLIFrameElement>();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeSrc, setIframeSrc] = useState<string>();
   const [renderKey, setRenderKey] = useState(Math.random());
   const [color] = usePrefersColor();
@@ -49,7 +49,7 @@ const Device: FC<IDeviceProps> = ({ url, className }) => {
 
   return (
     <div
-      className={['__dumi-default-device'].concat(className).join(' ')}
+      className={['__dumi-default-device'].concat(className || []).join(' ')}
       // avoid device flicker when using custom compiletime to render simulator
       data-device-type={iframeSrc ? 'iOS' : 'none'}
       data-mode={mode}

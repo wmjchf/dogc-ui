@@ -65,8 +65,8 @@ const PlusSquareOutlined = (
 
 function getTreeFromList(nodes: ReactNode, prefix = '') {
   const data: TreeProps['treeData'] = [];
-
-  [].concat(nodes).forEach((node, i) => {
+  const temp: Array<any> = [];
+  temp.concat(nodes).forEach((node, i) => {
     const key = `${prefix ? `${prefix}-` : ''}${i}`;
 
     switch (node.type) {
@@ -83,7 +83,7 @@ function getTreeFromList(nodes: ReactNode, prefix = '') {
         data.push({
           title: []
             .concat(node.props.children)
-            .filter((child) => child.type !== 'ul'),
+            .filter((child) => (child as any).type !== 'ul'),
           key,
           children: liLeafs,
           isLeaf: !liLeafs.length,
@@ -163,7 +163,7 @@ export default (props: ComponentProps<'div'>) => {
 
   const onClick = (
     event: React.MouseEvent<HTMLElement>,
-    node: EventDataNode,
+    node: EventDataNode<any>,
   ) => {
     const { isLeaf } = node;
 

@@ -1,0 +1,21 @@
+{
+  "name": "docs",
+  "license": "ISC",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "dumi dev",
+    "build": "dumi build",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
+  },
+  "devDependencies": {
+    "dumi": "^1.0.13",
+    "yorkie": "^2.0.0"
+  },
+  "dependencies": {
+    "dumi-theme-default": "^1.1.22",
+    "f2-touchemulator": "^0.0.1",
+    "lodash.debounce": "^4.0.8",
+    "qrcode.react": "^3.1.0",
+    "umi-hd": "^5.0.1"
+  }
+}

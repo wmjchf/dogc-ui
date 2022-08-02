@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:pro": "webpack --config ./webpack/dev.config.js",
     "build:dev": "webpack server --config ./webpack/dev.config.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev:site": "cd packages/site && npm run start"
   },
   "keywords": [],
   "author": "",

@@ -20,7 +20,11 @@ function copyLess() {
 function less2css() {
   return gulp
     .src("packages/ui/components/**/*.less")
-    .pipe(less()) // 处理less文件
+    .pipe(
+      less({
+        javascriptEnabled: true,
+      })
+    ) // 处理less文件
     .pipe(gulp.dest(`packages/ui/es`))
     .pipe(gulp.dest(`packages/ui/cjs`));
 }

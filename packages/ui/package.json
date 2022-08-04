@@ -13,6 +13,7 @@
   "license": "ISC",
   "peerDependencies": {
     "react": ">=16.3.1",
-    "react-dom": ">=16.3.1"
+    "react-dom": ">=16.3.1",
+    "ui-theme-default": ">=1.0.0"
   }
 }

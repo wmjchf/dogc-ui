@@ -26,5 +26,5 @@ export default {
       declarationDir: path.resolve(__dirname, `./${ENV}/types`),
     }),
   ],
-  external: [/@babel\/runtime/, "react"],
+  external: [/@babel\/runtime/, "react", "ui-theme-default"],
 };

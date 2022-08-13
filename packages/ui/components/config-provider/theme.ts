@@ -6,8 +6,17 @@ export type ITheme = {
   primaryColor?: string;
 };
 
+const hyphenateRE = /([^-])([A-Z])/g;
+
 export function setThemeData(theme: IThemeData) {
   Object.keys(theme).forEach((themeKey) => {
-    document.documentElement.style.setProperty(themeKey, theme[themeKey]);
+    const _themeKey = themeKey
+      .replace(hyphenateRE, "$1-$2")
+      .replace(hyphenateRE, "$1-$2")
+      .toLowerCase();
+    document.documentElement.style.setProperty(
+      `--${_themeKey}`,
+      theme[themeKey]
+    );
   });
 }

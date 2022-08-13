@@ -13,7 +13,7 @@ import "@/style/rect.less";
 const root = createRoot(document.querySelector("#app"));
 
 root.render(
-  <ConfigProvider theme={{ primaryColor: "red" }}>
+  <ConfigProvider>
     <App></App>
   </ConfigProvider>
 );

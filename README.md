@@ -1,3 +1,7 @@
+# 介绍
+
+组件库模板，减少组件库搭建繁琐的步骤，默认提供主题定制、组件文档、组件打包功能。更多功能也会陆续完善...
+
 # 安装、打包、运行
 
 ## 安装所有依赖
@@ -35,4 +39,4 @@ yarn add 依赖包名 -W
 - **src**: react 项目(example)，用来预览组件。
 - **package/ui**: 组件源码。
 - **package/site**: 组件库文档。
-- **package/ui-theme-default**: 默认主题库，方便以后自定义主题包。
+- **package/ui-theme-default**: 默认主题库

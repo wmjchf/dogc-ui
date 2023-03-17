@@ -9421,6 +9421,13 @@ postcss-pseudo-class-any-link@^6.0.0:
     postcss "^7.0.2"
     postcss-selector-parser "^5.0.0-rc.3"
 
+postcss-px-to-viewport-8-plugin@^1.2.0:
+  version "1.2.0"
+  resolved "http://cnpm.yigeos.com/postcss-px-to-viewport-8-plugin/-/postcss-px-to-viewport-8-plugin-1.2.0.tgz#debb211a790c5967c14cc4be8413d7c34343003f"
+  integrity sha512-3mbLHcJSb8LymP3zIsvwBkumkyfau5IMEGcn83dzELIRi83yKbIuJCKv3sDZW5XaJs3CntdncYugHWffbubCsg==
+  dependencies:
+    object-assign "^4.1.1"
+
 postcss-reduce-initial@^5.1.0:
   version "5.1.0"
   resolved "https://registry.npmmirror.com/postcss-reduce-initial/-/postcss-reduce-initial-5.1.0.tgz#fc31659ea6e85c492fb2a7b545370c215822c5d6"

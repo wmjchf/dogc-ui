@@ -5,7 +5,7 @@ import "./style/rect.less";
 export const App = () => {
   return (
     <div className="rect">
-      <Button text="按钮"></Button>
+      <Button>默认按钮</Button>
     </div>
   );
 };

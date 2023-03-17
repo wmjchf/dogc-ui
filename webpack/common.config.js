@@ -55,7 +55,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "webpack构建项目",
+      title: "UI组件库",
       template: path.resolve("public/index.html"),
     }),
     new MiniCssExtractPlugin({

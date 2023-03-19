@@ -41,6 +41,12 @@
     background-color: var(--dogc-white);
     border: solid 1px var(--dogc-black);
     color: var(--dogc-black);
+    &.@{btn-prefix-cls-hairline} {
+      border: none;
+      &::after {
+        border: solid 1px var(--dogc-black);
+      }
+    }
   }
   &.@{btn-prefix-cls-primary} {
     background-color: var(--primary-color);

@@ -9,7 +9,12 @@ export const App = () => {
       <Button type="success">成功按钮</Button>
       <Button type="warning">警告按钮</Button>
       <Button type="danger">危险按钮</Button>
-      <Button>默认按钮</Button>
+      <br />
+      <Button hairline={true}>默认按钮</Button>
+      <Button hairline={true}>默认按钮</Button>
+      <Button hairline={true}>默认按钮</Button>
+      <Button hairline={true}>默认按钮</Button>
+      <br />
       <Button hairline={true} type="primary">
         主要按钮
       </Button>
@@ -22,6 +27,7 @@ export const App = () => {
       <Button hairline={true} type="danger">
         危险按钮
       </Button>
+      <br />
       <Button plain={true} type="primary">
         主要按钮
       </Button>

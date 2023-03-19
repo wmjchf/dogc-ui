@@ -10,6 +10,7 @@ export type IButtonProps = {
   type?: "primary" | "success" | "warning" | "danger" | "default";
   hairline?: boolean;
   plain?: boolean;
+  disabled?: boolean;
   onClick?: (event: React.SyntheticEvent) => void;
 } & ICommonComponentProps;
 
@@ -22,6 +23,7 @@ const Button: React.FC<IButtonProps> = (props) => {
     type = "default",
     hairline = false,
     plain = false,
+    disabled = false,
     onClick,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
@@ -31,6 +33,7 @@ const Button: React.FC<IButtonProps> = (props) => {
     [`${getClassByType(prefixCls, type)}`]: true,
     [`${prefixCls}--hairline`]: hairline,
     [`${prefixCls}--plain`]: plain,
+    [`${prefixCls}--disabled`]: disabled,
   });
   return (
     <button

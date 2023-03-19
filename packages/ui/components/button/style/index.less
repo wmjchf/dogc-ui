@@ -8,6 +8,7 @@
 @btn-prefix-cls-danger: ~"@{btn-prefix-cls}--danger";
 @btn-prefix-cls-hairline: ~"@{btn-prefix-cls}--hairline";
 @btn-prefix-cls-plain: ~"@{btn-prefix-cls}--plain";
+@btn-prefix-cls-disabled: ~"@{btn-prefix-cls}--disabled";
 
 .@{btn-prefix-cls} {
   position: relative;
@@ -123,6 +124,13 @@
     &.@{btn-prefix-cls-danger} {
       border: solid 1px var(--danger-color);
       color: var(--danger-color);
+    }
+  }
+  &.@{btn-prefix-cls-disabled} {
+    opacity: var(--dogc-disabled-opacity);
+    cursor: not-allowed;
+    &::before {
+      display: none;
     }
   }
 }

@@ -29,7 +29,6 @@ const Button: React.FC<IButtonProps> = (props) => {
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("button", customPrefixCls);
   const classes = classNames(prefixCls, {
-    [`${prefixCls}`]: true,
     [`${getClassByType(prefixCls, type)}`]: true,
     [`${prefixCls}--hairline`]: hairline,
     [`${prefixCls}--plain`]: plain,

@@ -13,6 +13,7 @@ export const App = () => {
           setVisisble(false);
         }}
         position="bottom"
+        maskClosable={false}
       >
         <div style={{ height: "200px" }}></div>
       </Popup>

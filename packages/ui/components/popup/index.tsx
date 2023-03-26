@@ -10,6 +10,7 @@ export type IPopupProps = {
   position?: "top" | "right" | "bottom" | "left";
   selectorId?: string;
   visible?: boolean;
+  maskClosable?: boolean;
   onClose?: () => void;
 } & ICommonComponentProps;
 
@@ -24,6 +25,7 @@ const Popup: React.FC<IPopupProps> = (props) => {
     position,
     selectorId,
     visible = false,
+    maskClosable = true,
     onClose,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
@@ -125,6 +127,7 @@ const Popup: React.FC<IPopupProps> = (props) => {
         <div
           className={containerClasses}
           onClick={() => {
+            if (!maskClosable) return;
             _close();
           }}
         >

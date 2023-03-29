@@ -13,6 +13,7 @@ export type IPopupProps = {
   maskClosable?: boolean;
   overlay?: boolean;
   onClose?: () => void;
+  onOpen?: () => void;
 } & ICommonComponentProps;
 
 type RootNode = HTMLElement | null;
@@ -29,6 +30,7 @@ const Popup: React.FC<IPopupProps> = (props) => {
     maskClosable = true,
     overlay = true,
     onClose,
+    onOpen,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("popup", customPrefixCls);
@@ -75,6 +77,7 @@ const Popup: React.FC<IPopupProps> = (props) => {
   }, [selectorId]);
 
   useEffect(() => {
+    visible && onOpen && onOpen();
     _setVisible(visible);
   }, [visible]);
 

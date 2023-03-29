@@ -13,9 +13,15 @@ export const App = () => {
           setVisisble(false);
         }}
         position="bottom"
-        maskClosable={false}
+        maskClosable={true}
       >
-        <div style={{ height: "200px" }}></div>
+        <div
+          style={{
+            height: "200px",
+            borderRadius: "10px",
+            background: "#fff",
+          }}
+        ></div>
       </Popup>
       <Button
         type="primary"

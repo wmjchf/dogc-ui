@@ -11,6 +11,7 @@ export type IPopupProps = {
   selectorId?: string;
   visible?: boolean;
   maskClosable?: boolean;
+  overlay?: boolean;
   onClose?: () => void;
 } & ICommonComponentProps;
 
@@ -26,6 +27,7 @@ const Popup: React.FC<IPopupProps> = (props) => {
     selectorId,
     visible = false,
     maskClosable = true,
+    overlay = true,
     onClose,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
@@ -37,6 +39,7 @@ const Popup: React.FC<IPopupProps> = (props) => {
   const maskClasses = classNames({
     [`${prefixCls}--mask`]: true,
     [`${prefixCls}--mask_open`]: _visible,
+    [`${prefixCls}--mask_show`]: overlay,
   });
   const containerClasses = classNames({
     [`${prefixCls}--container`]: true,

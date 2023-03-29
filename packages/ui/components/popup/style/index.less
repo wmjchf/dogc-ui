@@ -2,6 +2,7 @@
 
 @popup-prefix-cls: ~"@{ui-prefix}-popup";
 @popup-prefix-cls-mask-open: ~"@{popup-prefix-cls}--mask_open";
+@popup-prefix-cls-mask-show: ~"@{popup-prefix-cls}--mask_show";
 @popup-prefix-cls-body: ~"@{popup-prefix-cls}--body";
 @popup-prefix-cls-body-open: ~"@{popup-prefix-cls}--body_open";
 @popup-prefix-cls-body-center: ~"@{popup-prefix-cls}--body_center";
@@ -29,7 +30,10 @@
     opacity: 0;
     transition: opacity 0.5s ease;
     &.@{popup-prefix-cls-mask-open} {
-      opacity: 1;
+      opacity: 0;
+      &.@{popup-prefix-cls-mask-show} {
+        opacity: 1;
+      }
     }
   }
   &--container {
@@ -37,8 +41,6 @@
     width: 100vw;
     height: 100vh;
     .@{popup-prefix-cls-body} {
-      background-color: #fff;
-
       &.@{popup-prefix-cls-body-center} {
         position: absolute;
         top: 50%;

@@ -1,5 +1,6 @@
 import path from "path";
 import { babel } from "@rollup/plugin-babel";
+import image from "@rollup/plugin-image";
 import typescript from "@rollup/plugin-typescript";
 
 const ENV = process.env.ENV;
@@ -25,6 +26,7 @@ export default {
       declaration: true,
       declarationDir: path.resolve(__dirname, `./${ENV}/types`),
     }),
+    image(),
   ],
   external: [/@babel\/runtime/, "react", "ui-theme-default", "classnames"],
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Popup, Button, Image } from "ui";
+
 import "./style/rect.less";
 
 export const App = () => {
@@ -33,12 +34,12 @@ export const App = () => {
         打开Popup
       </Button> */}
       <Image
-        src="https://t7.baidu.com/it/u=4198287529,2774471735&fm=193&f=GIF"
+        src="https://t7.baidu.com/it/u=4198287529,2774471735&fm=193&f=GF"
         width={200}
         height={200}
         fit="cover"
-        showPlaceholder={false}
-        position="right"
+        showPlaceholder={true}
+        position="left"
       ></Image>
     </div>
   );

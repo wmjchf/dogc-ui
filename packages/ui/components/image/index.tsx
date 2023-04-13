@@ -12,7 +12,7 @@ export type IImageProps = {
   prefixCls?: string;
   children?: React.ReactNode | string;
   placeholder?: React.ReactNode;
-  errorIcon?: React.ReactNode;
+  errorNode?: React.ReactNode;
   fit?: "contain" | "cover" | "fill" | "none" | "scale-down";
   position?: "center" | "top" | "right" | "bottom" | "left";
   width: number | string;
@@ -35,7 +35,7 @@ const Popup: React.FC<IImageProps> = (props) => {
     alt,
     style = {},
     placeholder,
-    errorIcon,
+    errorNode,
     fit,
     position,
     showPlaceholder = false,
@@ -82,17 +82,11 @@ const Popup: React.FC<IImageProps> = (props) => {
   };
 
   const renderImage = () => {
-    const _style = loading
-      ? {
-          display: "none",
-        }
-      : {};
     return (
       <img
         className={imageClasses}
         src={src}
         alt={alt}
-        style={_style}
         onLoad={_onLoad}
         onError={_onError}
       />
@@ -103,7 +97,7 @@ const Popup: React.FC<IImageProps> = (props) => {
     if (loading && !error && showPlaceholder) {
       return (
         <div className={placeholderClasses}>
-          <img src={PlaceholderImage} alt="" />
+          {placeholder || <img src={PlaceholderImage} alt="" />}
         </div>
       );
     }
@@ -114,7 +108,7 @@ const Popup: React.FC<IImageProps> = (props) => {
     if (error) {
       return (
         <div className={errorClasses}>
-          <img src={ErrorImage} alt="" />
+          {errorNode || <img src={ErrorImage} alt="" />}
         </div>
       );
     }
@@ -133,6 +127,7 @@ const Popup: React.FC<IImageProps> = (props) => {
       {renderImage()}
       {renderPlaceholder()}
       {renderError()}
+      {children}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Popup, Button, Image } from "ui";
+
+import { Popup, Button, Image, Ellipsis } from "ui";
 
 import "./style/rect.less";
 
@@ -23,24 +24,24 @@ export const App = () => {
             background: "#fff",
           }}
         ></div>
-      </Popup>
-      <Button
-        type="primary"
+      </Popup> */}
+      {/* <Button
+        type="default"
         onClick={() => {
           setVisisble(true);
         }}
-        style={{ margin: "10px" }}
       >
         打开Popup
       </Button> */}
-      <Image
+      <Ellipsis style={{ width: "300px" }}></Ellipsis>
+      {/* <Image
         src="https://t7.baidu.com/it/u=4198287529,2774471735&fm=193&f=GF"
         width={200}
         height={200}
         fit="cover"
         showPlaceholder={true}
         position="left"
-      ></Image>
+      ></Image> */}
     </div>
   );
 };

@@ -35,14 +35,6 @@
     max-height: 6em;
     font-size: 12px;
     transition: 0.3s max-height;
-    &::before {
-      content: "";
-      float: right;
-      height: 45px; /*先随便设置一个高度*/
-      background: red;
-      height: 100%;
-      margin-bottom: -24px;
-    }
     &::after {
       content: "";
       width: 999vw;
@@ -52,12 +44,15 @@
       margin-left: -100px;
     }
   }
+  &--slide {
+    float: right;
+    height: 100%;
+  }
   &--button {
     position: relative;
     float: right;
     clear: both;
     margin-left: 20px;
-    font-size: 12px;
     color: blue;
     cursor: pointer;
     display: flex;

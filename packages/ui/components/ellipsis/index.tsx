@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { getClassByType } from "@components/utls/class";
 import { ICommonComponentProps } from "../type";
@@ -6,7 +6,8 @@ import { Context } from "../config-provider/context";
 
 export type IEllipsisProps = {
   prefixCls?: string;
-  content?: string;
+  content: string;
+  contentClass?: string;
   //   type?: "primary" | "success" | "warning" | "danger" | "default";
   //   hairline?: boolean;
   //   plain?: boolean;
@@ -15,19 +16,35 @@ export type IEllipsisProps = {
 } & ICommonComponentProps;
 
 const Ellipsis: React.FC<IEllipsisProps> = (props) => {
-  const { prefixCls: customPrefixCls, className, content, style } = props;
+  const {
+    prefixCls: customPrefixCls,
+    className,
+    content,
+    contentClass,
+    style,
+  } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("ellipsis", customPrefixCls);
   const classes = classNames(prefixCls);
   const inputClasses = `${prefixCls}--input`;
-  const textClasses = `${prefixCls}--text`;
+  const contentClasses = `${prefixCls}--text`;
+  const slideClasses = `${prefixCls}--slide`;
   const buttonClasses = `${prefixCls}--button`;
+  const labelRef = useRef<HTMLLabelElement>(null);
+  const [marginBottom, setMarginBottom] = useState(0);
+  useEffect(() => {
+    setMarginBottom(labelRef?.current?.offsetHeight as number);
+  }, []);
   return (
     <div className={classNames(classes, className)} style={style}>
       <input type="checkbox" id="exp" className={inputClasses}></input>
-      <div className={textClasses}>
-        <label className={buttonClasses} htmlFor="exp"></label>
-        浮动元素是如何定位的正如我们前面提到的那样，当一个元素浮动之后，它会被移出正常的文档流，然后向左或者向右平移，一直平移直到碰到了所处的容器的边框，或者碰到另外一个浮动的元素。或者碰到另外另外一浮动浮。
+      <div className={classNames(contentClasses, contentClass)}>
+        <div
+          className={slideClasses}
+          style={{ marginBottom: -marginBottom }}
+        ></div>
+        <label className={buttonClasses} htmlFor="exp" ref={labelRef}></label>
+        {content}
       </div>
     </div>
   );

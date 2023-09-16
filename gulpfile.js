@@ -15,7 +15,7 @@ function copyLess() {
 }
 
 /**
- * 生成css文件
+ * 生成组件库css文件
  */
 function less2css() {
   return gulp
@@ -27,6 +27,20 @@ function less2css() {
     ) // 处理less文件
     .pipe(gulp.dest(`packages/ui/es`))
     .pipe(gulp.dest(`packages/ui/cjs`));
+}
+
+/**
+ * 生成主题库css文件
+ */
+function lessvar2css() {
+  return gulp
+    .src("packages/ui-theme-default/less/global.less")
+    .pipe(
+      less({
+        javascriptEnabled: true,
+      })
+    ) // 处理less文件
+    .pipe(gulp.dest(`packages/ui-theme-default`));
 }
 
 /**
@@ -90,6 +104,6 @@ function delType(cb) {
 
 const generateType = gulp.series(copyType, delType);
 
-const build = gulp.parallel(generateType, less2css);
+const build = gulp.parallel(generateType, less2css, lessvar2css);
 
 exports.default = build;

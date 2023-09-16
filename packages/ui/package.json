@@ -1,5 +1,5 @@
 {
-  "name": "@dogc/ui",
+  "name": "dogc",
   "version": "1.0.0",
   "description": "移动端组件库",
   "main": "cjs/index.js",

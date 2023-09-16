@@ -1,4 +1,4 @@
-import "ui-theme-default/less/global.less";
+import "ui-theme-default/global.css";
 
 export { default as Button } from "./button";
 export type { IButtonProps } from "./button";

@@ -1,6 +1,11 @@
 {
   "name": "ui-theme-default",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "description": "@dogc/ui默认主题库",
+  "main": "global.css",
+  "license": "MIT",
+  "author": "dogwang",
+  "files": [
+    "global.css"
+  ]
 }

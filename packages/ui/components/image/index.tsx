@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { handleUnit } from "../../util/unit";
+import { handleUnit } from "../util/unit";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 

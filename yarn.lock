@@ -10703,6 +10703,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rollup-plugin-null@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-null/-/rollup-plugin-null-1.0.3.tgz#b0d66a9df62bcbe4e55acaba7a6f25fdab1d79b8"
+  integrity sha512-5sATKtfhIQ5vwk4avDk4eLVC8P5uiL4yGXg9Q7BdrOmvpt4QI/5rxOLFv4G8manUnMnsDTgER/FpQBBhxe3euw==
+
 rollup-plugin-styles@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-styles/-/rollup-plugin-styles-4.0.0.tgz#472f104d33edda27fb089b63a315e31531611826"

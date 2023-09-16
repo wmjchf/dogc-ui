@@ -1,5 +1,6 @@
 import path from "path";
 import { babel } from "@rollup/plugin-babel";
+import nullImport from "rollup-plugin-null";
 import image from "@rollup/plugin-image";
 import typescript from "@rollup/plugin-typescript";
 
@@ -15,6 +16,9 @@ export default {
     preserveModulesRoot: "components",
   },
   plugins: [
+    nullImport({
+      ext: [".less"],
+    }),
     babel({
       babelHelpers: "runtime",
       extensions: [".js", ".ts", ".jsx", ".tsx"],

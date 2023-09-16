@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { getClassByType } from "@components/utls/class";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
+import "ui/components/button/style/index.less";
 
 export type IButtonProps = {
   prefixCls?: string;

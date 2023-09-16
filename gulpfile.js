@@ -91,11 +91,11 @@ function delType(cb) {
 const generateType = gulp.series(copyType, delType);
 
 const build = gulp.parallel(
-  generateType,
-  copyLess,
-  copyLessJs,
-  less2css,
-  index2css
+  generateType
+  // copyLess,
+  // copyLessJs,
+  // less2css,
+  // index2css
 );
 
 exports.default = build;

@@ -58,6 +58,7 @@
     "postcss-loader": "^6.2.1",
     "postcss-px-to-viewport-8-plugin": "^1.2.0",
     "rollup": "^3.9.0",
+    "rollup-plugin-null": "^1.0.3",
     "rollup-plugin-styles": "^4.0.0",
     "style-loader": "^3.3.1",
     "through2": "^4.0.2",

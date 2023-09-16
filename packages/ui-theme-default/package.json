@@ -1,7 +1,7 @@
 {
   "name": "ui-theme-default",
-  "version": "1.0.0",
-  "description": "@dogc/ui默认主题库",
+  "version": "1.0.1",
+  "description": "dogc组件库默认主题",
   "main": "global.css",
   "license": "MIT",
   "author": "dogwang",

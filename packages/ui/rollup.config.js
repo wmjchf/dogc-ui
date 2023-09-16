@@ -32,5 +32,5 @@ export default {
     }),
     image(),
   ],
-  external: [/@babel\/runtime/, "react", "ui-theme-default", "classnames"],
+  external: ["react", "ui-theme-default", "classnames"],
 };

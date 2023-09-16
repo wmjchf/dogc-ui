@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { getClassByType } from "@components/utls/class";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
-import "ui/components/ellipsis/style/index.less";
+import "ui/es/ellipsis/style/index.css";
 
 export type IEllipsisProps = {
   prefixCls?: string;

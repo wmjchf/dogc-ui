@@ -8,6 +8,8 @@ import { Context } from "../config-provider/context";
 import ErrorImage from "./img/error.png";
 import PlaceholderImage from "./img/placeholder.png";
 
+import "ui/es/image/style/index.css";
+
 export type IImageProps = {
   prefixCls?: string;
   children?: React.ReactNode | string;

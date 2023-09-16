@@ -1,9 +1,9 @@
 import React from "react";
 import classNames from "classnames";
-import { getClassByType } from "@components/utls/class";
+import { getClassByType } from "../../util/class";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
-import "ui/es/button/style/index.css";
+import "dogc/es/button/style/index.css";
 
 export type IButtonProps = {
   prefixCls?: string;

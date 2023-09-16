@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { handleUnit } from "@components/utls/unit";
-
+import { handleUnit } from "../../util/unit";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 
 import ErrorImage from "./img/error.png";
 import PlaceholderImage from "./img/placeholder.png";
 
-import "ui/es/image/style/index.css";
+import "dogc/es/image/style/index.css";
 
 export type IImageProps = {
   prefixCls?: string;

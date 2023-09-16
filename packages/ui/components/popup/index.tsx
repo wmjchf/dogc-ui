@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 
-import "ui/es/popup/style/index.css";
+import "dogc/es/popup/style/index.css";
 
 export type IPopupProps = {
   prefixCls?: string;

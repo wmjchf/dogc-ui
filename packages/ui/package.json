@@ -1,7 +1,7 @@
 {
   "name": "dogc",
-  "version": "1.0.3",
-  "description": "移动端组件库",
+  "version": "1.0.5",
+  "description": "致力于打造一款常用的react移动端组件库",
   "main": "cjs/index.js",
   "module": "es/index.js",
   "typings": "es/index.d.ts",

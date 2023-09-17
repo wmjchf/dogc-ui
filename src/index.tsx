@@ -2,7 +2,7 @@ import React from "react";
 
 import { createRoot } from "react-dom/client";
 
-import { ConfigProvider } from "ui";
+import { ConfigProvider } from "dogc";
 
 import { App } from "./App";
 

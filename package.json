@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.22.15",
-    "@dogc/ui": "1.0.0",
+    "dogc": "^1.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "classnames": "^2.3.1",
     "core-js": "^3.23.1",

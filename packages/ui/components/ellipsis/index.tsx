@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 import "dogc/es/ellipsis/style/index.css";

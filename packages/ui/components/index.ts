@@ -16,5 +16,9 @@ export { default as Waterfall } from "./waterfull";
 export type { IWaterfullProps } from "./waterfull";
 export type { IWaterItemData } from "./waterfull/item";
 
+export { default as VirtualList } from "./virtual-list";
+export type { IVirtualListProps } from "./virtual-list";
+export type { IVirtualItemData } from "./virtual-list/item";
+
 export { default as ConfigProvider } from "./config-provider";
 export type { IConfigProviderProps } from "./config-provider";

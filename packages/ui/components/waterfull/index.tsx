@@ -4,7 +4,7 @@ import { findMinColumnIndex } from "@components/util/waterfull";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 import { Item, IWaterItemPosition, IWaterItemData } from "./item";
-import "dogc/es/waterfull/style/index.css";
+import "dogc/es/virtual-list/style/index.css";
 
 export type IWaterfullProps<T extends IWaterItemData> = {
   prefixCls?: string;

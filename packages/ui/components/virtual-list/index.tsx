@@ -1,4 +1,10 @@
-import React from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 
 import { ICommonComponentProps } from "../type";
@@ -23,16 +29,34 @@ const VirtualList = <T extends IVirtualItemData>(
     style = {},
     listData = [],
     size,
+    itemSize,
     renderItem,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
-  const prefixCls = getPrefixCls("virtual-list", customPrefixCls);
+  const prefixCls = getPrefixCls("virtual", customPrefixCls);
   const classes = classNames(prefixCls);
   const listClasses = `${prefixCls}--list`;
-  //   const contentClasses = `${prefixCls}--text`;
-  //   const slideClasses = `${prefixCls}--slide`;
-  //   const buttonClasses = `${prefixCls}--button`;
 
+  const count = useMemo(() => {
+    return size / itemSize + 2;
+  }, []);
+
+  const listHeight = useMemo(() => {
+    return itemSize * listData.length;
+  }, [listData]);
+
+  const [startIndex, setStartIndex] = useState(0);
+
+  const listDivRef = useRef<HTMLDivElement>(null);
+  const handleScroll = useCallback(function () {
+    const scrollTop = listDivRef.current?.scrollTop || 0;
+    const startIndex = Math.floor(scrollTop / itemSize);
+    setStartIndex(startIndex);
+  }, []);
+  useEffect(() => {
+    listDivRef.current?.addEventListener("scroll", handleScroll);
+    listDivRef.current?.addEventListener("touchmove", handleScroll);
+  }, []);
   return (
     <div
       className={classNames(classes, className)}
@@ -40,10 +64,21 @@ const VirtualList = <T extends IVirtualItemData>(
         ...style,
         height: size,
       }}
+      ref={listDivRef}
     >
-      <div className={listClasses}>
-        {listData.map((item) => {
-          return <Item key={item.id}>{renderItem(item)}</Item>;
+      <div
+        className={listClasses}
+        style={{
+          height: listHeight - startIndex * itemSize,
+          transform: `translate3d(0,${startIndex * itemSize}px,0)`,
+        }}
+      >
+        {listData.slice(startIndex, startIndex + count).map((item) => {
+          return (
+            <Item key={item.id} itemSize={itemSize}>
+              {renderItem(item)}
+            </Item>
+          );
         })}
       </div>
     </div>

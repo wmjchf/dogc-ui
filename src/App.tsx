@@ -12,50 +12,64 @@ import {
 
 import "./style/rect.less";
 interface Data extends IWaterItemData {
-  name?: string;
+  title?: string;
+  content?: string;
+  url?: string;
 }
 export const App = () => {
   const [visible, setVisisble] = useState(false);
   const [list, setList] = useState([
     {
-      height: 100,
       id: 0,
+      title: "我是你爸爸",
+      content: "爸爸",
     },
     {
-      height: 50,
       id: 1,
+      title: "我是你爷爷",
+      content: "爷爷爷爷爷爷爷爷爷爷爷爷",
     },
     {
-      height: 70,
       id: 2,
+      title: "我是你奶奶",
+      content: "奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶",
     },
     {
-      height: 200,
       id: 3,
+      title: "我是你妈妈",
+      content: "妈妈妈妈妈妈妈妈妈妈妈妈",
     },
     {
-      height: 150,
       id: 4,
+      title: "我是你舅舅",
+      content:
+        "舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅",
     },
     {
-      height: 90,
       id: 5,
+      title: "我是你哥哥",
+      content: "哥哥哥哥哥哥哥哥哥哥哥哥哥哥",
     },
     {
-      height: 80,
       id: 6,
+      title: "我是你二爷",
+      content:
+        "二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷",
     },
     {
-      height: 60,
       id: 7,
+      title: "我是你大爷",
+      content: "大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷",
     },
     {
-      height: 110,
       id: 8,
+      title: "我是你三爷",
+      content: "三爷三爷三爷三爷三爷三爷三爷三爷",
     },
     {
-      height: 120,
       id: 9,
+      title: "我是你四爷",
+      content: "四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷",
     },
   ]);
   const [temp] = useState([
@@ -108,7 +122,7 @@ export const App = () => {
         showPlaceholder={true}
         position="left"
       ></Image> */}
-      {/* <Waterfall<Data>
+      <Waterfall<Data>
         listData={list}
         columns={4}
         width={document.documentElement.clientWidth}
@@ -116,21 +130,25 @@ export const App = () => {
         renderItem={(item) => {
           return (
             <div
-              style={{ height: item.height, width: "100%", background: "red" }}
+              style={{
+                width: "100%",
+                background: "red",
+              }}
             >
-              {item.height}
+              <div>{item.title}</div>
+              <div>{item.content}</div>
             </div>
           );
         }}
-      ></Waterfall> */}
-      <VirtualList
+      ></Waterfall>
+      {/* <VirtualList
         size={document.documentElement.clientHeight}
         itemSize={100}
         listData={list1}
         renderItem={(item) => {
           return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
         }}
-      ></VirtualList>
+      ></VirtualList> */}
     </div>
   );
 };

@@ -4,11 +4,11 @@ import { findMinColumnIndex } from "@components/util/waterfull";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 import { Item, IWaterItemPosition, IWaterItemData } from "./item";
-import "dogc/es/virtual-list/style/index.css";
+import "dogc/es/waterfull/style/index.css";
 
 export type IWaterfullProps<T extends IWaterItemData> = {
   prefixCls?: string;
-  renderItem: (node: T) => React.ReactNode;
+  renderItem: (node: T, itemWidth: number) => React.ReactNode;
   width: number;
   itemGap?: number;
   columns?: number;
@@ -38,17 +38,15 @@ const Waterfull = <T extends IWaterItemData>(
     return (width - (columns - 1) * itemGap) / columns;
   }, [width, columns, itemGap]);
 
-  //   const inputClasses = `${prefixCls}--input`;
-  //   const contentClasses = `${prefixCls}--text`;
-  //   const slideClasses = `${prefixCls}--slide`;
-  //   const buttonClasses = `${prefixCls}--button`;
   const getWaterfallItemPostionInfo = (node: T): IWaterItemPosition => {
-    const { height } = node;
+    const { imgRatio, extraHeight } = node;
 
-    const itemHeight = height + itemGap;
+    const itemHeight =
+      itemWidth * (imgRatio || 0) + itemGap + (extraHeight || 0);
 
     const minHeightIndex = findMinColumnIndex(heightArrRef.current);
     const prevMinHeight = heightArrRef.current[minHeightIndex];
+
     heightArrRef.current[minHeightIndex] += itemHeight;
 
     return {
@@ -73,7 +71,7 @@ const Waterfull = <T extends IWaterItemData>(
             itemGap={itemGap}
             getWaterfallItemPostionInfo={getWaterfallItemPostionInfo}
           >
-            {renderItem(item)}
+            {renderItem(item, itemWidth)}
           </Item>
         );
       })}

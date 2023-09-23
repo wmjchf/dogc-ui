@@ -23,13 +23,13 @@ interface OriPos extends React.CSSProperties {
 export type IDragProps = {
   prefixCls?: string;
   container?: HTMLElement | string;
-  isStatic: boolean;
+  isStatic?: boolean;
   position?: [number, number];
   size?: [number, number];
   zIndex?: number;
   children?: React.ReactNode;
-  onDragStart: (oriPos: OriPos) => void;
-  onDragStop: (oriPos: React.CSSProperties) => void;
+  onDragStart?: (oriPos: OriPos) => void;
+  onDragStop?: (oriPos: React.CSSProperties) => void;
 } & ICommonComponentProps;
 
 const Drag: React.FC<IDragProps> = (props) => {
@@ -44,14 +44,14 @@ const Drag: React.FC<IDragProps> = (props) => {
     onDragStop,
     container = document.body,
     isStatic,
-    style,
+    style: wrapStyle,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("drag", customPrefixCls);
   const classes = classNames(prefixCls);
   const itemClasses = `${prefixCls}-item`;
 
-  const [dragStyle, setDragStyle] = useState<React.CSSProperties>({
+  const [style, setStyle] = useState<React.CSSProperties>({
     left: position[0],
     top: position[1],
     width: size[0],
@@ -212,7 +212,7 @@ const Drag: React.FC<IDragProps> = (props) => {
     const y = e.targetTouches[0].pageY;
     const x = e.targetTouches[0].pageX;
     const newStyle = transform(direction.current, oriPos.current, { x, y });
-    setDragStyle(newStyle);
+    setStyle(newStyle);
   }, []);
 
   // move mouse
@@ -223,14 +223,14 @@ const Drag: React.FC<IDragProps> = (props) => {
       x: event.clientX,
       y: event.clientY,
     });
-    setDragStyle(newStyle);
+    setStyle(newStyle);
   }, []);
 
   // The mouse is lifted
   const onMouseUp = useCallback(() => {
     isDown.current = false;
-    onDragStop && onDragStop(dragStyle);
-  }, [dragStyle]);
+    onDragStop && onDragStop(style);
+  }, [style]);
 
   useEffect(() => {
     dragBox.current = (typeof container === "object"
@@ -245,7 +245,7 @@ const Drag: React.FC<IDragProps> = (props) => {
     }
   }, []);
   return (
-    <div className={classNames(classes, className)} style={style}>
+    <div className={classNames(classes, className)} style={wrapStyle}>
       {isStatic ? (
         <div className={itemClasses} style={style}>
           {children}

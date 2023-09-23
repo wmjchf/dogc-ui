@@ -8,6 +8,7 @@ import {
   Waterfall,
   IWaterItemData,
   VirtualList,
+  Drag,
 } from "dogc";
 
 import "./style/rect.less";
@@ -122,7 +123,7 @@ export const App = () => {
         showPlaceholder={true}
         position="left"
       ></Image> */}
-      <Waterfall<Data>
+      {/* <Waterfall<Data>
         listData={list}
         columns={4}
         width={document.documentElement.clientWidth}
@@ -140,7 +141,7 @@ export const App = () => {
             </div>
           );
         }}
-      ></Waterfall>
+      ></Waterfall> */}
       {/* <VirtualList
         size={document.documentElement.clientHeight}
         itemSize={100}
@@ -149,6 +150,7 @@ export const App = () => {
           return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
         }}
       ></VirtualList> */}
+      <Drag>111</Drag>
     </div>
   );
 };

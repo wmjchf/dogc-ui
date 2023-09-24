@@ -181,7 +181,7 @@ const Drag: React.FC<IDragProps> = (props) => {
       };
       onDragStart && onDragStart(oriPos.current);
     },
-    []
+    [style]
   );
   const onTouchStart = useCallback(
     (dir: PosMap, e: React.TouchEvent<HTMLElement>) => {
@@ -199,7 +199,7 @@ const Drag: React.FC<IDragProps> = (props) => {
       };
       onDragStart && onDragStart(oriPos.current);
     },
-    []
+    [style]
   );
 
   // The mouse is lifted

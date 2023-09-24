@@ -202,30 +202,6 @@ const Drag: React.FC<IDragProps> = (props) => {
     []
   );
 
-  const onTouchMove = useCallback((e: React.TouchEvent<HTMLElement>) => {
-    // stop the event bubbles
-    e.stopPropagation();
-
-    // Determine if the mouse is holding down
-    if (!isDown.current) return;
-
-    const y = e.targetTouches[0].pageY;
-    const x = e.targetTouches[0].pageX;
-    const newStyle = transform(direction.current, oriPos.current, { x, y });
-    setStyle(newStyle);
-  }, []);
-
-  // move mouse
-  const onMouseMove = useCallback((event: React.MouseEvent<HTMLElement>) => {
-    // Determine if the mouse is holding down
-    if (!isDown.current) return;
-    const newStyle = transform(direction.current, oriPos.current, {
-      x: event.clientX,
-      y: event.clientY,
-    });
-    setStyle(newStyle);
-  }, []);
-
   // The mouse is lifted
   const onMouseUp = useCallback(() => {
     isDown.current = false;
@@ -244,6 +220,31 @@ const Drag: React.FC<IDragProps> = (props) => {
       dragBox.current.style.position = "relative";
     }
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("mousemove", (event) => {
+      // Determine if the mouse is holding down
+      if (!isDown.current) return;
+      const newStyle = transform(direction.current, oriPos.current, {
+        x: event.clientX,
+        y: event.clientY,
+      });
+      setStyle(newStyle);
+    });
+
+    window.addEventListener("touchmove", (e) => {
+      // stop the event bubbles
+      e.stopPropagation();
+
+      // Determine if the mouse is holding down
+      if (!isDown.current) return;
+
+      const y = e.targetTouches[0].pageY;
+      const x = e.targetTouches[0].pageX;
+      const newStyle = transform(direction.current, oriPos.current, { x, y });
+      setStyle(newStyle);
+    });
+  }, []);
   return (
     <div className={classNames(classes, className)} style={wrapStyle}>
       {isStatic ? (
@@ -256,9 +257,7 @@ const Drag: React.FC<IDragProps> = (props) => {
           style={style}
           onMouseDown={(e) => onMouseDown("move", e)}
           onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
           onTouchStart={(e) => onTouchStart("move", e)}
-          onTouchMove={onTouchMove}
           onTouchEnd={onMouseUp}
         >
           <div className="drag-item-child">{children}</div>

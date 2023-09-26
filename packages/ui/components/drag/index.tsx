@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
@@ -30,6 +36,8 @@ export type IDragProps = {
   children?: React.ReactNode;
   onDragStart?: (oriPos: OriPos) => void;
   onDragStop?: (oriPos: React.CSSProperties) => void;
+  dragDot?: React.ReactNode;
+  background?: string;
 } & ICommonComponentProps;
 
 const Drag: React.FC<IDragProps> = (props) => {
@@ -45,6 +53,8 @@ const Drag: React.FC<IDragProps> = (props) => {
     container = document.body,
     isStatic,
     style: wrapStyle,
+    dragDot,
+    background,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("drag", customPrefixCls);
@@ -58,6 +68,10 @@ const Drag: React.FC<IDragProps> = (props) => {
     height: size[1],
     zIndex,
   });
+
+  const DragDot = useMemo(() => {
+    return <div className="drag-dot"></div>;
+  }, []);
 
   const dragBox = useRef<HTMLElement | null>(null);
   const isDown = useRef<boolean>(false);
@@ -248,13 +262,22 @@ const Drag: React.FC<IDragProps> = (props) => {
   return (
     <div className={classNames(classes, className)} style={wrapStyle}>
       {isStatic ? (
-        <div className={itemClasses} style={style}>
+        <div
+          className={itemClasses}
+          style={{
+            ...style,
+            background,
+          }}
+        >
           {children}
         </div>
       ) : (
         <div
           className={itemClasses}
-          style={style}
+          style={{
+            ...style,
+            background,
+          }}
           onMouseDown={(e) => onMouseDown("move", e)}
           onMouseUp={onMouseUp}
           onTouchStart={(e) => onTouchStart("move", e)}
@@ -272,7 +295,9 @@ const Drag: React.FC<IDragProps> = (props) => {
                 onTouchStart={(e: React.TouchEvent<HTMLElement>) =>
                   onTouchStart(item as PosMap, e)
                 }
-              ></div>
+              >
+                <div className="drag-dot-container">{dragDot || DragDot}</div>
+              </div>
             ))}
         </div>
       )}

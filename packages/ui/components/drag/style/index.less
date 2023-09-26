@@ -27,12 +27,15 @@
     display: inline-block;
     width: 6px;
     height: 6px;
-    background: #06c;
+
     background-clip: content-box;
     padding: 10px;
     margin-top: -13px !important;
     margin-left: -13px !important;
     user-select: none; // 注意禁止鼠标选中控制点元素，不然拖拽事件可能会因此被中断
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .control-point.point-e {
     cursor: ew-resize;
@@ -99,5 +102,13 @@
     box-shadow: none;
     border: none;
     transform: translateX(-3px);
+  }
+  .drag-dot-container {
+    flex-shrink: 0;
+    .drag-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #06c;
+    }
   }
 }

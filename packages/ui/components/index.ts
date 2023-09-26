@@ -20,8 +20,8 @@ export { default as VirtualList } from "./virtual-list";
 export type { IVirtualListProps } from "./virtual-list";
 export type { IVirtualItemData } from "./virtual-list/item";
 
-export { default as Drag } from "./drag";
-export type { IDragProps } from "./drag";
+export { default as DragEdit } from "./drag-edit";
+export type { IDragEditProps } from "./drag-edit";
 
 export { default as ConfigProvider } from "./config-provider";
 export type { IConfigProviderProps } from "./config-provider";

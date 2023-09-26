@@ -8,7 +8,7 @@ import React, {
 import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
-import "dogc/es/drag/style/index.css";
+import "dogc/es/drag-edit/style/index.css";
 
 type PosMap =
   | "e"
@@ -26,7 +26,7 @@ interface OriPos extends React.CSSProperties {
   cX: number;
   cY: number;
 }
-export type IDragProps = {
+export type IDragEditProps = {
   prefixCls?: string;
   container?: HTMLElement | string;
   isStatic?: boolean;
@@ -40,7 +40,7 @@ export type IDragProps = {
   background?: string;
 } & ICommonComponentProps;
 
-const Drag: React.FC<IDragProps> = (props) => {
+const DragEdit: React.FC<IDragEditProps> = (props) => {
   const {
     prefixCls: customPrefixCls,
     className,
@@ -57,10 +57,10 @@ const Drag: React.FC<IDragProps> = (props) => {
     background,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
-  const prefixCls = getPrefixCls("drag", customPrefixCls);
+  const prefixCls = getPrefixCls("drag-edit", customPrefixCls);
   const classes = classNames(prefixCls);
   const itemClasses = `${prefixCls}-item`;
-
+  const itemChildClasses = `${prefixCls}-item-child`;
   const [style, setStyle] = useState<React.CSSProperties>({
     left: position[0],
     top: position[1],
@@ -283,7 +283,7 @@ const Drag: React.FC<IDragProps> = (props) => {
           onTouchStart={(e) => onTouchStart("move", e)}
           onTouchEnd={onMouseUp}
         >
-          <div className="drag-item-child">{children}</div>
+          <div className={itemChildClasses}>{children}</div>
           {!isStatic &&
             points.map((item) => (
               <div
@@ -304,4 +304,4 @@ const Drag: React.FC<IDragProps> = (props) => {
     </div>
   );
 };
-export default Drag;
+export default DragEdit;

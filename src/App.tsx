@@ -8,7 +8,7 @@ import {
   Waterfall,
   IWaterItemData,
   VirtualList,
-  Drag,
+  DragEdit,
 } from "dogc";
 
 import "./style/rect.less";
@@ -150,7 +150,7 @@ export const App = () => {
           return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
         }}
       ></VirtualList> */}
-      <Drag>111</Drag>
+      <DragEdit>111</DragEdit>
     </div>
   );
 };

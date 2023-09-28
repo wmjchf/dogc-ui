@@ -9,6 +9,7 @@ import {
   IWaterItemData,
   VirtualList,
   DragEdit,
+  Loading,
 } from "dogc";
 
 import "./style/rect.less";
@@ -150,7 +151,8 @@ export const App = () => {
           return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
         }}
       ></VirtualList> */}
-      <DragEdit>111</DragEdit>
+      {/* <DragEdit>111</DragEdit> */}
+      {/* <Loading size={48} loadingWidth={5} noActiveColor="black"></Loading> */}
     </div>
   );
 };

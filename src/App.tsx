@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 import {
   Popup,
-  Button,
-  Image,
   Ellipsis,
   Waterfall,
   IWaterItemData,
   VirtualList,
   DragEdit,
   Loading,
+  List,
+  IListItemData,
 } from "dogc";
 
 import "./style/rect.less";

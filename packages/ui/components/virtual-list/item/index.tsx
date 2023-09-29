@@ -6,13 +6,13 @@ import { Context } from "../../config-provider/context";
 export interface IVirtualItemData {
   id: string | number;
 }
-type IWaterfullItemProps = {
+type IVirtualItemProps = {
   prefixCls?: string;
   children?: React.ReactNode;
   itemSize: number;
 } & ICommonComponentProps;
 
-const Item = (props: IWaterfullItemProps): React.ReactElement => {
+const Item = (props: IVirtualItemProps): React.ReactElement => {
   const {
     prefixCls: customPrefixCls,
     style = {},
@@ -21,7 +21,7 @@ const Item = (props: IWaterfullItemProps): React.ReactElement => {
     itemSize,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
-  const prefixCls = getPrefixCls("waterfull", customPrefixCls);
+  const prefixCls = getPrefixCls("virtual-item", customPrefixCls);
   const classes = classNames(prefixCls);
 
   return (

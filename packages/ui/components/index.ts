@@ -22,6 +22,7 @@ export type { ILoadingProps } from "./loading";
 
 export { default as List } from "./list";
 export type { IListProps } from "./list";
+export type { IListItemData } from "./list/item";
 
 export { default as ConfigProvider } from "./config-provider";
 export type { IConfigProviderProps } from "./config-provider";

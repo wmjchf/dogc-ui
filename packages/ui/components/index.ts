@@ -20,5 +20,8 @@ export type { IDragEditProps } from "./drag-edit";
 export { default as Loading } from "./loading";
 export type { ILoadingProps } from "./loading";
 
+export { default as List } from "./list";
+export type { IListProps } from "./list";
+
 export { default as ConfigProvider } from "./config-provider";
 export type { IConfigProviderProps } from "./config-provider";

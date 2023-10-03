@@ -93,6 +93,7 @@ const List = <T extends IListItemData>(
       end: 0,
     };
   };
+
   const handleTouchStart: TouchEventHandler<HTMLDivElement> = (event) => {
     setNeedTransition(false);
     setLoadingStatus(LoadStatus.UN_LOADING);
@@ -106,10 +107,10 @@ const List = <T extends IListItemData>(
     if (height > minRefreshHiehgt) {
       setLoadingStatus(LoadStatus.CAN_LOADING);
     }
-    if (distance > 0) {
+    if (distance < 0) {
       setHeight(height + distance);
     } else {
-      setHeight(height + distance / 2);
+      setHeight(height + distance / 4);
     }
     touchPosition.current.start = touchPosition.current.end;
   };

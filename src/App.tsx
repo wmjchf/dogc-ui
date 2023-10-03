@@ -158,6 +158,13 @@ export const App = () => {
         renderItem={(item) => {
           return <div>{item.title}</div>;
         }}
+        onRefresh={() => {
+          return new Promise(function (resolve) {
+            setTimeout(() => {
+              resolve([]);
+            }, 2000);
+          });
+        }}
       ></List>
     </div>
   );

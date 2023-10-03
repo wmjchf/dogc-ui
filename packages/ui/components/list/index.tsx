@@ -15,6 +15,7 @@ export type IListProps<T extends IListItemData> = {
   color?: string;
   fontSize?: number;
   transitionDuration?: number;
+  onRefresh?: () => Promise<any>;
   listData?: T[];
   renderItem: (data: T) => React.ReactElement;
 } & ICommonComponentProps;
@@ -32,6 +33,12 @@ enum LoadStatus {
   LOAD_SUCCESS = "load_success",
   NONE = "none",
 }
+
+const defaultOnRefresh = () => {
+  return new Promise(function (resolve) {
+    resolve([]);
+  });
+};
 
 interface ITouchPosition {
   start: number;
@@ -53,6 +60,7 @@ const List = <T extends IListItemData>(
     color = "#000",
     fontSize = 12,
     transitionDuration = 0.5,
+    onRefresh = defaultOnRefresh,
     listData = [],
     renderItem,
   } = props;
@@ -77,6 +85,7 @@ const List = <T extends IListItemData>(
     [LoadStatus.LOAD_SUCCESS]: loadSuccessTip,
   };
   const minRefreshHiehgt = 60;
+
   const resetRefresh = () => {
     setHeight(0);
     touchPosition.current = {
@@ -107,11 +116,11 @@ const List = <T extends IListItemData>(
 
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     setLoadingStatus(LoadStatus.LOADING);
-    setTimeout(() => {
+    onRefresh().then((res) => {
       setLoadingStatus(LoadStatus.LOAD_SUCCESS);
       setNeedTransition(true);
       resetRefresh();
-    }, 2000);
+    });
   };
   return (
     <div className={classNames(classes, className)}>

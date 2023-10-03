@@ -16,16 +16,13 @@ import "./style/rect.less";
 export const App = () => {
   const [visible, setVisisble] = useState(false);
   const [list, setList] = useState([]);
+
   const [temp] = useState([
     {
       a: 1,
     },
   ]);
-  const [list1] = useState(
-    new Array(50).fill(0).map((item, index) => {
-      return { id: index + 1 };
-    })
-  );
+  const [list1, setList1] = useState([]);
   return (
     <div className="rect" id="rect">
       {/* <Popup
@@ -99,70 +96,24 @@ export const App = () => {
         onRefresh={() => {
           return new Promise(function (resolve) {
             setTimeout(() => {
-              setList([
-                {
-                  id: 0,
-                  title: "我是你爸爸",
-                  content: "爸爸",
-                },
-                {
-                  id: 1,
-                  title: "我是你爷爷",
-                  content: "爷爷爷爷爷爷爷爷爷爷爷爷",
-                },
-                {
-                  id: 2,
-                  title: "我是你奶奶",
-                  content:
-                    "奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶",
-                },
-                {
-                  id: 3,
-                  title: "我是你妈妈",
-                  content: "妈妈妈妈妈妈妈妈妈妈妈妈",
-                },
-                {
-                  id: 4,
-                  title: "我是你舅舅",
-                  content:
-                    "舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅",
-                },
-                {
-                  id: 5,
-                  title: "我是你哥哥",
-                  content: "哥哥哥哥哥哥哥哥哥哥哥哥哥哥",
-                },
-                {
-                  id: 6,
-                  title: "我是你二爷",
-                  content:
-                    "二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷",
-                },
-                {
-                  id: 7,
-                  title: "我是你大爷",
-                  content: "大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷",
-                },
-                {
-                  id: 8,
-                  title: "我是你三爷",
-                  content: "三爷三爷三爷三爷三爷三爷三爷三爷",
-                },
-                {
-                  id: 9,
-                  title: "我是你四爷",
-                  content:
-                    "四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷",
-                },
-              ]);
+              setList1(
+                new Array(50).fill(0).map((item, index) => {
+                  return { id: index + 1 };
+                })
+              );
               resolve(true);
             }, 2000);
           });
         }}
       >
-        {list.map((item) => {
-          return <div key={item.id}>{item.title}</div>;
-        })}
+        <VirtualList
+          size={document.documentElement.clientHeight}
+          itemSize={100}
+          listData={list1}
+          renderItem={(item) => {
+            return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
+          }}
+        ></VirtualList>
       </List>
     </div>
   );

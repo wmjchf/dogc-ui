@@ -9,71 +9,13 @@ import {
   DragEdit,
   Loading,
   List,
-  IListItemData,
 } from "dogc";
 
 import "./style/rect.less";
-interface Data extends IListItemData {
-  title?: string;
-  content?: string;
-  url?: string;
-}
+
 export const App = () => {
   const [visible, setVisisble] = useState(false);
-  const [list, setList] = useState([
-    {
-      id: 0,
-      title: "我是你爸爸",
-      content: "爸爸",
-    },
-    {
-      id: 1,
-      title: "我是你爷爷",
-      content: "爷爷爷爷爷爷爷爷爷爷爷爷",
-    },
-    {
-      id: 2,
-      title: "我是你奶奶",
-      content: "奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶",
-    },
-    {
-      id: 3,
-      title: "我是你妈妈",
-      content: "妈妈妈妈妈妈妈妈妈妈妈妈",
-    },
-    {
-      id: 4,
-      title: "我是你舅舅",
-      content:
-        "舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅",
-    },
-    {
-      id: 5,
-      title: "我是你哥哥",
-      content: "哥哥哥哥哥哥哥哥哥哥哥哥哥哥",
-    },
-    {
-      id: 6,
-      title: "我是你二爷",
-      content:
-        "二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷",
-    },
-    {
-      id: 7,
-      title: "我是你大爷",
-      content: "大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷",
-    },
-    {
-      id: 8,
-      title: "我是你三爷",
-      content: "三爷三爷三爷三爷三爷三爷三爷三爷",
-    },
-    {
-      id: 9,
-      title: "我是你四爷",
-      content: "四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷",
-    },
-  ]);
+  const [list, setList] = useState([]);
   const [temp] = useState([
     {
       a: 1,
@@ -153,19 +95,75 @@ export const App = () => {
       ></VirtualList> */}
       {/* <DragEdit>111</DragEdit> */}
       {/* <Loading size={48} loadingWidth={5} noActiveColor="black"></Loading> */}
-      <List<Data>
-        listData={list}
-        renderItem={(item) => {
-          return <div>{item.title}</div>;
-        }}
+      <List
         onRefresh={() => {
           return new Promise(function (resolve) {
             setTimeout(() => {
-              resolve([]);
+              setList([
+                {
+                  id: 0,
+                  title: "我是你爸爸",
+                  content: "爸爸",
+                },
+                {
+                  id: 1,
+                  title: "我是你爷爷",
+                  content: "爷爷爷爷爷爷爷爷爷爷爷爷",
+                },
+                {
+                  id: 2,
+                  title: "我是你奶奶",
+                  content:
+                    "奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶奶",
+                },
+                {
+                  id: 3,
+                  title: "我是你妈妈",
+                  content: "妈妈妈妈妈妈妈妈妈妈妈妈",
+                },
+                {
+                  id: 4,
+                  title: "我是你舅舅",
+                  content:
+                    "舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅舅",
+                },
+                {
+                  id: 5,
+                  title: "我是你哥哥",
+                  content: "哥哥哥哥哥哥哥哥哥哥哥哥哥哥",
+                },
+                {
+                  id: 6,
+                  title: "我是你二爷",
+                  content:
+                    "二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷二爷",
+                },
+                {
+                  id: 7,
+                  title: "我是你大爷",
+                  content: "大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷大爷",
+                },
+                {
+                  id: 8,
+                  title: "我是你三爷",
+                  content: "三爷三爷三爷三爷三爷三爷三爷三爷",
+                },
+                {
+                  id: 9,
+                  title: "我是你四爷",
+                  content:
+                    "四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷四爷",
+                },
+              ]);
+              resolve(true);
             }, 2000);
           });
         }}
-      ></List>
+      >
+        {list.map((item) => {
+          return <div key={item.id}>{item.title}</div>;
+        })}
+      </List>
     </div>
   );
 };

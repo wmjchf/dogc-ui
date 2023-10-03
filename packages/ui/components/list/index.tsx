@@ -1,11 +1,10 @@
-import React, { useState, useRef, TouchEventHandler, useMemo } from "react";
+import React, { useState, useRef, TouchEventHandler, useEffect } from "react";
 import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
-import { Item, IListItemData } from "./item";
 import "dogc/es/list/style/index.css";
 
-export type IListProps<T extends IListItemData> = {
+export type IListProps = {
   prefixCls?: string;
   willPullTip?: string;
   pullingTip?: string;
@@ -15,9 +14,8 @@ export type IListProps<T extends IListItemData> = {
   color?: string;
   fontSize?: number;
   transitionDuration?: number;
-  onRefresh?: () => Promise<any>;
-  listData?: T[];
-  renderItem: (data: T) => React.ReactElement;
+  onRefresh: () => Promise<boolean>;
+  children?: React.ReactNode;
 } & ICommonComponentProps;
 
 enum DefaultConfig {
@@ -34,20 +32,12 @@ enum LoadStatus {
   NONE = "none",
 }
 
-const defaultOnRefresh = () => {
-  return new Promise(function (resolve) {
-    resolve([]);
-  });
-};
-
 interface ITouchPosition {
   start: number;
   end: number;
 }
 
-const List = <T extends IListItemData>(
-  props: IListProps<T>
-): React.ReactElement => {
+const List = (props: IListProps): React.ReactElement => {
   const {
     prefixCls: customPrefixCls,
     className,
@@ -60,9 +50,8 @@ const List = <T extends IListItemData>(
     color = "#000",
     fontSize = 12,
     transitionDuration = 0.5,
-    onRefresh = defaultOnRefresh,
-    listData = [],
-    renderItem,
+    onRefresh,
+    children,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("list", customPrefixCls);
@@ -110,7 +99,7 @@ const List = <T extends IListItemData>(
     if (distance < 0) {
       setHeight(height + distance);
     } else {
-      setHeight(height + distance / 4);
+      setHeight(height + distance / 2);
     }
     touchPosition.current.start = touchPosition.current.end;
   };
@@ -118,11 +107,19 @@ const List = <T extends IListItemData>(
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     setLoadingStatus(LoadStatus.LOADING);
     onRefresh().then((res) => {
-      setLoadingStatus(LoadStatus.LOAD_SUCCESS);
-      setNeedTransition(true);
-      resetRefresh();
+      if (res) {
+        setLoadingStatus(LoadStatus.LOAD_SUCCESS);
+        setNeedTransition(true);
+        resetRefresh();
+      }
     });
   };
+  useEffect(() => {
+    if (!onRefresh) {
+      throw new Error("onRefresh不能为空");
+    }
+    onRefresh();
+  }, []);
   return (
     <div className={classNames(classes, className)}>
       <div
@@ -143,13 +140,7 @@ const List = <T extends IListItemData>(
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {listData.map((item) => {
-          return (
-            <Item key={item.id} data={item}>
-              {renderItem(item)}
-            </Item>
-          );
-        })}
+        {children}
       </div>
     </div>
   );

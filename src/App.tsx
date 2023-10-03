@@ -13,7 +13,7 @@ import {
 } from "dogc";
 
 import "./style/rect.less";
-interface Data extends IWaterItemData {
+interface Data extends IListItemData {
   title?: string;
   content?: string;
   url?: string;
@@ -153,6 +153,12 @@ export const App = () => {
       ></VirtualList> */}
       {/* <DragEdit>111</DragEdit> */}
       {/* <Loading size={48} loadingWidth={5} noActiveColor="black"></Loading> */}
+      <List<Data>
+        listData={list}
+        renderItem={(item) => {
+          return <div>{item.title}</div>;
+        }}
+      ></List>
     </div>
   );
 };

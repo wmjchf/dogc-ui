@@ -6,6 +6,7 @@ import "dogc/es/list/style/index.css";
 
 export type IListProps = {
   prefixCls?: string;
+  containerSize: number;
   willPullTip?: string;
   pullingTip?: string;
   loadingTip?: string;
@@ -14,8 +15,11 @@ export type IListProps = {
   color?: string;
   fontSize?: number;
   transitionDuration?: number;
-  onRefresh: () => Promise<boolean>;
+  onRefresh?: () => Promise<boolean>;
   children?: React.ReactNode;
+  onTouchStart?: TouchEventHandler<HTMLDivElement>;
+  onTouchMove?: TouchEventHandler<HTMLDivElement>;
+  onTouchEnd?: TouchEventHandler<HTMLDivElement>;
 } & ICommonComponentProps;
 
 enum DefaultConfig {
@@ -42,6 +46,7 @@ const List = (props: IListProps): React.ReactElement => {
     prefixCls: customPrefixCls,
     className,
     style = {},
+    containerSize,
     willPullTip = DefaultConfig.WILL_PULL_TIP,
     pullingTip = DefaultConfig.PULLING_TIP,
     loadingTip = DefaultConfig.LOADING_TIP,
@@ -52,6 +57,9 @@ const List = (props: IListProps): React.ReactElement => {
     transitionDuration = 0.5,
     onRefresh,
     children,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("list", customPrefixCls);
@@ -77,19 +85,21 @@ const List = (props: IListProps): React.ReactElement => {
 
   const resetRefresh = () => {
     setHeight(0);
-    touchPosition.current = {
-      start: 0,
-      end: 0,
-    };
   };
 
   const handleTouchStart: TouchEventHandler<HTMLDivElement> = (event) => {
+    onTouchStart && onTouchStart(event);
     setNeedTransition(false);
     setLoadingStatus(LoadStatus.UN_LOADING);
     const touch = event.touches[0];
     touchPosition.current.start = touch.clientY;
   };
   const handleTouchMove: TouchEventHandler<HTMLDivElement> = (event) => {
+    onTouchMove && onTouchMove(event);
+    const scrollTop = event.currentTarget?.scrollTop;
+    if (scrollTop > 0) {
+      return;
+    }
     const touch = event.touches[0];
     touchPosition.current.end = touch.clientY;
     const distance = touchPosition.current.end - touchPosition.current.start;
@@ -97,7 +107,7 @@ const List = (props: IListProps): React.ReactElement => {
       setLoadingStatus(LoadStatus.CAN_LOADING);
     }
     if (distance < 0) {
-      setHeight(height + distance);
+      setHeight(height < 0 ? 0 : height + distance);
     } else {
       setHeight(height + distance / 2);
     }
@@ -105,23 +115,40 @@ const List = (props: IListProps): React.ReactElement => {
   };
 
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
-    setLoadingStatus(LoadStatus.LOADING);
-    onRefresh().then((res) => {
-      if (res) {
-        setLoadingStatus(LoadStatus.LOAD_SUCCESS);
-        setNeedTransition(true);
-        resetRefresh();
-      }
-    });
-  };
-  useEffect(() => {
-    if (!onRefresh) {
-      throw new Error("onRefresh不能为空");
+    onTouchEnd && onTouchEnd(event);
+    touchPosition.current = {
+      start: 0,
+      end: 0,
+    };
+    if (loadingStatus === LoadStatus.CAN_LOADING) {
+      setLoadingStatus(LoadStatus.LOADING);
     }
-    onRefresh();
-  }, []);
+    if (onRefresh) {
+      onRefresh().then((res) => {
+        if (res) {
+          setLoadingStatus(LoadStatus.LOAD_SUCCESS);
+          setNeedTransition(true);
+          resetRefresh();
+        }
+      });
+    } else {
+      setLoadingStatus(LoadStatus.LOAD_SUCCESS);
+      setNeedTransition(true);
+      resetRefresh();
+    }
+  };
+
   return (
-    <div className={classNames(classes, className)}>
+    <div
+      className={classNames(classes, className)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      style={{
+        ...style,
+        height: containerSize,
+      }}
+    >
       <div
         className={refreshClasses}
         style={{
@@ -134,14 +161,7 @@ const List = (props: IListProps): React.ReactElement => {
       >
         <span>{LOADING_MAP[loadingStatus]}</span>
       </div>
-      <div
-        className={contentClasses}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {children}
-      </div>
+      <div className={contentClasses}>{children}</div>
     </div>
   );
 };

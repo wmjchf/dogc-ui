@@ -1,4 +1,5 @@
 import React, {
+  TouchEventHandler,
   useCallback,
   useEffect,
   useMemo,
@@ -10,14 +11,16 @@ import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 import { Item, IVirtualItemData } from "./item";
+import List from "../list";
 import "dogc/es/virtual-list/style/index.css";
 
 export type IVirtualListProps<T extends IVirtualItemData> = {
   prefixCls?: string;
   renderItem: (node: T) => React.ReactNode;
-  listData?: T[];
   size: number;
   itemSize: number;
+  listData?: T[];
+  onRefresh?: () => Promise<boolean>;
 } & ICommonComponentProps;
 
 const VirtualList = <T extends IVirtualItemData>(
@@ -27,15 +30,15 @@ const VirtualList = <T extends IVirtualItemData>(
     prefixCls: customPrefixCls,
     className,
     style = {},
-    listData = [],
     size,
     itemSize,
+    listData = [],
     renderItem,
+    onRefresh,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("virtual", customPrefixCls);
   const classes = classNames(prefixCls);
-  const listClasses = `${prefixCls}--list`;
 
   const count = useMemo(() => {
     return size / itemSize + 2;
@@ -47,27 +50,34 @@ const VirtualList = <T extends IVirtualItemData>(
 
   const [startIndex, setStartIndex] = useState(0);
 
-  const listDivRef = useRef<HTMLDivElement>(null);
-  const handleScroll = useCallback(function () {
-    const scrollTop = listDivRef.current?.scrollTop || 0;
+  const handleScroll: TouchEventHandler<HTMLDivElement> = function (event) {
+    const scrollTop = event.currentTarget?.scrollTop || 0;
     const startIndex = Math.floor(scrollTop / itemSize);
     setStartIndex(startIndex);
-  }, []);
-  useEffect(() => {
-    listDivRef.current?.addEventListener("scroll", handleScroll);
-    listDivRef.current?.addEventListener("touchmove", handleScroll);
-  }, []);
+  };
+
   return (
-    <div
-      className={classNames(classes, className)}
+    // <div
+    //   className={classNames(classes, className)}
+    //   style={{
+    //     ...style,
+    //     height: size,
+    //   }}
+    //   ref={listDivRef}
+    //   onTouchMove={handleScroll}
+    // >
+
+    <List
+      containerSize={size}
+      onTouchMove={handleScroll}
       style={{
         ...style,
-        height: size,
+        position: "relative",
       }}
-      ref={listDivRef}
+      onRefresh={onRefresh}
     >
       <div
-        className={listClasses}
+        className={classNames(classes, className)}
         style={{
           height: listHeight - startIndex * itemSize,
           transform: `translate3d(0,${startIndex * itemSize}px,0)`,
@@ -81,7 +91,8 @@ const VirtualList = <T extends IVirtualItemData>(
           );
         })}
       </div>
-    </div>
+    </List>
+    // </div>
   );
 };
 export default VirtualList;

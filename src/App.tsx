@@ -22,7 +22,11 @@ export const App = () => {
       a: 1,
     },
   ]);
-  const [list1, setList1] = useState([]);
+  const [list1, setList1] = useState(
+    new Array(50).fill(0).map((item, index) => {
+      return { id: index + 1 };
+    })
+  );
   return (
     <div className="rect" id="rect">
       {/* <Popup
@@ -92,29 +96,15 @@ export const App = () => {
       ></VirtualList> */}
       {/* <DragEdit>111</DragEdit> */}
       {/* <Loading size={48} loadingWidth={5} noActiveColor="black"></Loading> */}
-      <List
-        onRefresh={() => {
-          return new Promise(function (resolve) {
-            setTimeout(() => {
-              setList1(
-                new Array(50).fill(0).map((item, index) => {
-                  return { id: index + 1 };
-                })
-              );
-              resolve(true);
-            }, 2000);
-          });
+
+      <VirtualList
+        size={document.documentElement.clientHeight}
+        itemSize={100}
+        listData={list1}
+        renderItem={(item) => {
+          return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
         }}
-      >
-        <VirtualList
-          size={document.documentElement.clientHeight}
-          itemSize={100}
-          listData={list1}
-          renderItem={(item) => {
-            return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
-          }}
-        ></VirtualList>
-      </List>
+      ></VirtualList>
     </div>
   );
 };

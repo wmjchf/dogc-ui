@@ -41,7 +41,7 @@ const VirtualList = <T extends IVirtualItemData>(
   const classes = classNames(prefixCls);
 
   const count = useMemo(() => {
-    return size / itemSize + 2;
+    return size / itemSize + 10;
   }, []);
 
   const listHeight = useMemo(() => {
@@ -67,18 +67,11 @@ const VirtualList = <T extends IVirtualItemData>(
     //   onTouchMove={handleScroll}
     // >
 
-    <List
-      containerSize={size}
-      onTouchMove={handleScroll}
-      style={{
-        ...style,
-        position: "relative",
-      }}
-      onRefresh={onRefresh}
-    >
+    <List containerSize={size} onTouchMove={handleScroll} onRefresh={onRefresh}>
       <div
         className={classNames(classes, className)}
         style={{
+          ...style,
           height: listHeight - startIndex * itemSize,
           transform: `translate3d(0,${startIndex * itemSize}px,0)`,
         }}

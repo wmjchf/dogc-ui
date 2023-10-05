@@ -4,6 +4,7 @@ import { findMinColumnIndex } from "@components/util/waterfull";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 import { Item, IWaterItemPosition, IWaterItemData } from "./item";
+import List from "../list";
 import "dogc/es/waterfull/style/index.css";
 
 export type IWaterfullProps<T extends IWaterItemData> = {
@@ -13,6 +14,8 @@ export type IWaterfullProps<T extends IWaterItemData> = {
   itemGap?: number;
   columns?: number;
   listData?: T[];
+  size: number;
+  onRefresh?: () => Promise<boolean>;
 } & ICommonComponentProps;
 
 const Waterfull = <T extends IWaterItemData>(
@@ -27,6 +30,8 @@ const Waterfull = <T extends IWaterItemData>(
     itemGap = 0,
     listData = [],
     renderItem,
+    size,
+    onRefresh,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("waterfull", customPrefixCls);
@@ -55,27 +60,31 @@ const Waterfull = <T extends IWaterItemData>(
     };
   };
   return (
-    <div
-      className={classNames(classes, className)}
-      style={{
-        width,
-        ...style,
-      }}
-    >
-      {listData.map((item) => {
-        return (
-          <Item
-            width={itemWidth}
-            key={item.id}
-            node={item}
-            itemGap={itemGap}
-            getWaterfallItemPostionInfo={getWaterfallItemPostionInfo}
-          >
-            {renderItem(item, itemWidth)}
-          </Item>
-        );
-      })}
-    </div>
+    <List containerSize={size} onRefresh={onRefresh}>
+      <div
+        className={classNames(classes, className)}
+        style={{
+          width,
+          ...style,
+        }}
+      >
+        {listData.map((item) => {
+          return (
+            <Item
+              width={itemWidth}
+              key={item.id}
+              node={item}
+              itemGap={itemGap}
+              getWaterfallItemPostionInfo={getWaterfallItemPostionInfo}
+            >
+              {renderItem(item, itemWidth)}
+            </Item>
+          );
+        })}
+      </div>
+    </List>
+
+    // </div>
   );
 };
 export default Waterfull;

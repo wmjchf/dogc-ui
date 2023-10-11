@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
   useState,
+  WheelEventHandler,
 } from "react";
 import classNames from "classnames";
 
@@ -55,19 +56,19 @@ const VirtualList = <T extends IVirtualItemData>(
     const startIndex = Math.floor(scrollTop / itemSize);
     setStartIndex(startIndex);
   };
+  const handleWheel: WheelEventHandler = function (event) {
+    const scrollTop = event.currentTarget?.scrollTop || 0;
+    const startIndex = Math.floor(scrollTop / itemSize);
+    setStartIndex(startIndex);
+  };
 
   return (
-    // <div
-    //   className={classNames(classes, className)}
-    //   style={{
-    //     ...style,
-    //     height: size,
-    //   }}
-    //   ref={listDivRef}
-    //   onTouchMove={handleScroll}
-    // >
-
-    <List containerSize={size} onTouchMove={handleScroll} onRefresh={onRefresh}>
+    <List
+      containerSize={size}
+      onTouchMove={handleScroll}
+      onRefresh={onRefresh}
+      onWheel={handleWheel}
+    >
       <div
         className={classNames(classes, className)}
         style={{
@@ -85,7 +86,6 @@ const VirtualList = <T extends IVirtualItemData>(
         })}
       </div>
     </List>
-    // </div>
   );
 };
 export default VirtualList;

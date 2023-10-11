@@ -1,4 +1,11 @@
-import React, { useState, useRef, TouchEventHandler, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  TouchEventHandler,
+  useEffect,
+  WheelEventHandler,
+  UIEventHandler,
+} from "react";
 import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
@@ -20,6 +27,7 @@ export type IListProps = {
   onTouchStart?: TouchEventHandler<HTMLDivElement>;
   onTouchMove?: TouchEventHandler<HTMLDivElement>;
   onTouchEnd?: TouchEventHandler<HTMLDivElement>;
+  onWheel?: WheelEventHandler;
 } & ICommonComponentProps;
 
 enum DefaultConfig {
@@ -60,6 +68,7 @@ const List = (props: IListProps): React.ReactElement => {
     onTouchStart,
     onTouchMove,
     onTouchEnd,
+    onWheel,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("list", customPrefixCls);
@@ -114,6 +123,14 @@ const List = (props: IListProps): React.ReactElement => {
     touchPosition.current.start = touchPosition.current.end;
   };
 
+  const handleScroll: TouchEventHandler<HTMLDivElement> = (event) => {
+    onTouchMove && onTouchMove(event);
+  };
+
+  const handleWheel: WheelEventHandler = (event) => {
+    onWheel && onWheel(event);
+  };
+
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     onTouchEnd && onTouchEnd(event);
     touchPosition.current = {
@@ -144,6 +161,8 @@ const List = (props: IListProps): React.ReactElement => {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onWheel={handleWheel}
+      onScroll={handleScroll}
       style={{
         ...style,
         height: containerSize,

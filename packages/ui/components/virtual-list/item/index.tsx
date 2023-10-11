@@ -10,6 +10,7 @@ type IVirtualItemProps = {
   prefixCls?: string;
   children?: React.ReactNode;
   itemSize: number;
+  index: number | string;
 } & ICommonComponentProps;
 
 const Item = (props: IVirtualItemProps): React.ReactElement => {
@@ -18,7 +19,7 @@ const Item = (props: IVirtualItemProps): React.ReactElement => {
     style = {},
     className,
     children,
-    itemSize,
+    index,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("virtual-item", customPrefixCls);
@@ -28,9 +29,9 @@ const Item = (props: IVirtualItemProps): React.ReactElement => {
     <div
       className={classNames(classes, className)}
       style={{
-        height: itemSize,
         ...style,
       }}
+      id={`${index}`}
     >
       {children}
     </div>

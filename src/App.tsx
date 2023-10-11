@@ -10,6 +10,7 @@ import {
   Loading,
   List,
 } from "dogc";
+import Mock from "mockjs";
 
 import "./style/rect.less";
 
@@ -68,7 +69,7 @@ export const App = () => {
   ]);
   const [list1, setList1] = useState(
     new Array(100).fill(0).map((item, index) => {
-      return { id: index + 1 };
+      return { id: index + 1, content: Mock.mock("@csentence(40, 100)") };
     })
   );
   return (
@@ -143,10 +144,14 @@ export const App = () => {
 
       <VirtualList
         size={document.documentElement.clientHeight}
-        itemSize={100}
+        estimateItemSize={100}
         listData={list1}
         renderItem={(item) => {
-          return <div style={{ height: 100, width: "100%" }}>{item.id}</div>;
+          return (
+            <div style={{ width: "100%", paddingBottom: 24 }}>
+              {item.content}
+            </div>
+          );
         }}
       ></VirtualList>
     </div>

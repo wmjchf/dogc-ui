@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Popup,
@@ -67,11 +67,14 @@ export const App = () => {
       a: 1,
     },
   ]);
-  const [list1, setList1] = useState(
-    new Array(100).fill(0).map((item, index) => {
-      return { id: index + 1, content: Mock.mock("@csentence(40, 100)") };
-    })
-  );
+  const [list1, setList1] = useState([]);
+  useEffect(() => {
+    setList1(
+      new Array(100).fill(0).map((item, index) => {
+        return { id: index + 1, content: Mock.mock("@csentence(40, 100)") };
+      })
+    );
+  }, []);
   return (
     <div className="rect" id="rect">
       {/* <Popup

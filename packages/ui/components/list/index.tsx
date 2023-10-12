@@ -2,9 +2,7 @@ import React, {
   useState,
   useRef,
   TouchEventHandler,
-  useEffect,
   WheelEventHandler,
-  UIEventHandler,
 } from "react";
 import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
@@ -91,6 +89,7 @@ const List = (props: IListProps): React.ReactElement => {
     [LoadStatus.LOAD_SUCCESS]: loadSuccessTip,
   };
   const minRefreshHiehgt = 60;
+  const inertiaScroll = useRef<boolean>(false);
 
   const resetRefresh = () => {
     setHeight(0);
@@ -98,8 +97,10 @@ const List = (props: IListProps): React.ReactElement => {
 
   const handleTouchStart: TouchEventHandler<HTMLDivElement> = (event) => {
     onTouchStart && onTouchStart(event);
+    inertiaScroll.current = false;
     setNeedTransition(false);
     setLoadingStatus(LoadStatus.UN_LOADING);
+    inertiaScroll.current = false;
     const touch = event.touches[0];
     touchPosition.current.start = touch.clientY;
   };
@@ -124,7 +125,9 @@ const List = (props: IListProps): React.ReactElement => {
   };
 
   const handleScroll: TouchEventHandler<HTMLDivElement> = (event) => {
-    onTouchMove && onTouchMove(event);
+    if (inertiaScroll.current) {
+      onTouchMove && onTouchMove(event);
+    }
   };
 
   const handleWheel: WheelEventHandler = (event) => {
@@ -133,6 +136,7 @@ const List = (props: IListProps): React.ReactElement => {
 
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     onTouchEnd && onTouchEnd(event);
+    inertiaScroll.current = true;
     touchPosition.current = {
       start: 0,
       end: 0,

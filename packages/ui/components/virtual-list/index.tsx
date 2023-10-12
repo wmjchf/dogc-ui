@@ -1,6 +1,5 @@
 import React, {
   TouchEventHandler,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -20,6 +19,7 @@ export type IVirtualListProps<T extends IVirtualItemData> = {
   renderItem: (node: T) => React.ReactNode;
   size: number;
   estimateItemSize: number;
+  bufferCount?: number;
   listData?: T[];
   onRefresh?: () => Promise<boolean>;
 } & ICommonComponentProps;
@@ -44,6 +44,7 @@ const VirtualList = <T extends IVirtualItemData>(
     listData = [],
     renderItem,
     onRefresh,
+    bufferCount = 6,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("virtual", customPrefixCls);
@@ -52,8 +53,8 @@ const VirtualList = <T extends IVirtualItemData>(
   const positionList = useRef<IPosition[]>([]);
   const virtualRef = useRef<HTMLDivElement>(null);
   const initPositions = () => {
-    const _positionList = [];
-    for (let i = 0; i < listData.length; i++) {
+    const _positionList = [...positionList.current];
+    for (let i = positionList.current.length; i < listData.length; i++) {
       _positionList.push({
         index: i,
         height: estimateItemSize,
@@ -66,12 +67,14 @@ const VirtualList = <T extends IVirtualItemData>(
   };
 
   const count = useMemo(() => {
-    return size / estimateItemSize + 10;
+    return size / estimateItemSize + bufferCount;
   }, []);
 
   const [listHeight, setListHeight] = useState(0);
 
   const [startIndex, setStartIndex] = useState(0);
+
+  const [renderList, setRenderList] = useState<T[]>([]);
   // 二分查找
   const binarySearch = (list: IPosition[], value: number) => {
     let start = 0;
@@ -88,7 +91,7 @@ const VirtualList = <T extends IVirtualItemData>(
         if (tempIndex === -1 || tempIndex > midIndex) {
           tempIndex = midIndex;
         }
-        end = end - 1;
+        end = midIndex - 1;
       }
     }
     return tempIndex;
@@ -102,18 +105,25 @@ const VirtualList = <T extends IVirtualItemData>(
   const handleWheel: WheelEventHandler = function (event) {
     const scrollTop = event.currentTarget?.scrollTop || 0;
     const startIndex = binarySearch(positionList.current, scrollTop);
+
     setStartIndex(startIndex);
   };
+
   const setPosition = () => {
     if (!virtualRef.current) return;
     const nodes = virtualRef.current.children;
+
+    if (nodes.length === 0 || positionList.current.length === 0) return;
     for (let i = 0; i < nodes.length; i++) {
       const nodeRect = nodes[i].getBoundingClientRect();
       const index = +nodes[i].id;
+
       const oldHeight = positionList.current[index].height; // 旧的高度
       const dHeight = oldHeight - nodeRect.height; // 差值
+
       if (dHeight) {
         positionList.current[index].bottom = nodeRect.bottom;
+        positionList.current[index].top = nodeRect.top;
         positionList.current[index].height = nodeRect.height;
         positionList.current[index].dHeight = dHeight;
       }
@@ -121,27 +131,32 @@ const VirtualList = <T extends IVirtualItemData>(
 
     const nodeStartIndex = +nodes[0].id;
     const positionLength = positionList.current.length;
-    let startHeight = positionList.current[nodeStartIndex].dHeight;
-    positionList.current[nodeStartIndex].dHeight = 0;
 
-    for (let i = nodeStartIndex + 1; i < positionLength; ++i) {
-      const item = positionList.current[i];
+    for (let i = nodeStartIndex + 1; i < positionLength; i++) {
       positionList.current[i].top = positionList.current[i - 1].bottom;
       positionList.current[i].bottom =
-        positionList.current[i].bottom - startHeight;
-      if (item.dHeight !== 0) {
-        startHeight += item.dHeight;
-        item.dHeight = 0;
-      }
+        positionList.current[i].top + positionList.current[i].height;
     }
+
     setListHeight(positionList.current[positionLength - 1].bottom);
   };
+
   useEffect(() => {
     initPositions();
-  }, []);
+  }, [listData]);
+
+  useEffect(() => {
+    const endIndex = Math.min(listData.length, startIndex + count);
+    setRenderList(listData.slice(startIndex, endIndex));
+  }, [startIndex, listData, count]);
+
   useEffect(() => {
     setPosition();
-  }, [virtualRef.current]);
+  }, [renderList]);
+
+  const offsetDis =
+    startIndex > 0 ? positionList.current[startIndex - 1].bottom : 0;
+
   return (
     <List
       containerSize={size}
@@ -153,12 +168,12 @@ const VirtualList = <T extends IVirtualItemData>(
         className={classNames(classes, className)}
         style={{
           ...style,
-          height: listHeight - startIndex * estimateItemSize,
-          transform: `translate3d(0,${startIndex * estimateItemSize}px,0)`,
+          height: listHeight - offsetDis,
+          transform: `translate3d(0,${offsetDis}px,0)`,
         }}
         ref={virtualRef}
       >
-        {listData.slice(startIndex, startIndex + count).map((item) => {
+        {renderList.map((item) => {
           const index = listData.findIndex((child) => {
             return child.id === item.id;
           });

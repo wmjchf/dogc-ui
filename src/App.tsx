@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Popup,
@@ -10,57 +10,20 @@ import {
   Loading,
   List,
 } from "dogc";
-import Mock from "mockjs";
 
+import Mock from "mockjs";
+import axios from "./request";
+import WaterfullData from "./data/waterfull.json";
 import "./style/rect.less";
 
 interface Data extends IWaterItemData {
   title?: string;
-  content?: string;
 }
 export const App = () => {
   const [visible, setVisisble] = useState(false);
-  const [list, setList] = useState<Data[]>([
-    {
-      id: 0,
-      imgUrl: "https://t7.baidu.com/it/u=1951645650,1501818406&fm=193&f=GIF",
-      imgRatio: 2 / 3,
-      title: "家庭聚会",
-      content: "给你的爱一直很安静，哈哈哈哈哈，家庭聚会",
-    },
-    {
-      id: 1,
-      imgUrl: "https://t7.baidu.com/it/u=1938056713,576237458&fm=193&f=GIF",
-      imgRatio: 3 / 2,
-      title: "高清美女",
-      content:
-        "下拉刷新时会触发事件，在事件的回调函数中可以进行同步或异步操作，操作完成后将设置为",
-    },
-    {
-      id: 2,
-      imgUrl: "https://t7.baidu.com/it/u=890938330,494135193&fm=193&f=GIF",
-      imgRatio: 918 / 1200,
-      title: "婴儿图片",
-      content:
-        "他们的故事从6岁那年开始，那时她还是疯狂如野男孩的丁香，而他也只是默默跟在她背后的慕容北",
-    },
-    {
-      id: 3,
-      imgUrl: "https://t7.baidu.com/it/u=890938330,494135193&fm=193&f=GIF",
-      imgRatio: 918 / 1200,
-      title: "婴儿图片",
-      content:
-        "他们的故事从6岁那年开始，那时她还是疯狂如野男孩的丁香，而他也只是默默跟在她背后的慕容北",
-    },
-    {
-      id: 4,
-      imgUrl: "https://t7.baidu.com/it/u=890938330,494135193&fm=193&f=GIF",
-      imgRatio: 918 / 1200,
-      title: "婴儿图片",
-      content:
-        "他们的故事从6岁那年开始，那时她还是疯狂如野男孩的丁香，而他也只是默默跟在她背后的慕容北",
-    },
-  ]);
+  const sizeRef = useRef<number>(10);
+  const pageRef = useRef<number>(1);
+  const [list, setList] = useState<Data[]>([]);
 
   const [temp] = useState([
     {
@@ -75,6 +38,26 @@ export const App = () => {
       })
     );
   }, []);
+  const getWaterfullList = function () {
+    const result = WaterfullData.slice(
+      (pageRef.current - 1) * sizeRef.current,
+      pageRef.current * sizeRef.current
+    );
+    const resultTemp = result.map((item) => {
+      return {
+        id: item.picture_id,
+        title: item.title,
+        imgRatio: item.height / item.width,
+        imgUrl: item.original_url,
+      };
+    });
+
+    setList([...list, ...resultTemp]);
+  };
+  useEffect(() => {
+    getWaterfullList();
+  }, []);
+  // console.log(list, "ere");
   return (
     <div className="rect" id="rect">
       {/* <Popup
@@ -121,18 +104,31 @@ export const App = () => {
         columns={2}
         width={document.documentElement.clientWidth}
         itemGap={10}
-        renderItem={(item) => {
-          return (
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <div>{item.title}</div>
-              <div>{item.content}</div>
-            </div>
-          );
+        onRefresh={() => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(true);
+            }, 3000);
+          });
         }}
+        onLoad={() => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              pageRef.current++;
+              getWaterfullList();
+              resolve(true);
+            }, 3000);
+          });
+        }}
+        // renderItem={(item) => {
+        //   return (
+        //     <div
+        //       style={{
+        //         width: "100%",
+        //       }}
+        //     ></div>
+        //   );
+        // }}
       ></Waterfall>
       {/* <VirtualList
         size={document.documentElement.clientHeight}

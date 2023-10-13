@@ -12,13 +12,14 @@ import "dogc/es/waterfull/style/index.css";
 
 export type IWaterfullProps<T extends IWaterItemData> = {
   prefixCls?: string;
-  renderItem: (node: T, itemWidth: number) => React.ReactNode;
+  renderItem?: (node: T, itemWidth: number) => React.ReactNode;
   width: number;
   itemGap?: number;
   columns?: number;
   listData?: T[];
   size: number;
   onRefresh?: () => Promise<boolean>;
+  onLoad?: () => Promise<boolean>;
 } & ICommonComponentProps;
 
 const Waterfull = <T extends IWaterItemData>(
@@ -35,6 +36,7 @@ const Waterfull = <T extends IWaterItemData>(
     renderItem,
     size,
     onRefresh,
+    onLoad,
   } = props;
   const { getPrefixCls } = React.useContext(Context);
   const prefixCls = getPrefixCls("waterfull", customPrefixCls);
@@ -66,7 +68,7 @@ const Waterfull = <T extends IWaterItemData>(
     };
   };
   return (
-    <List containerSize={size} onRefresh={onRefresh}>
+    <List containerSize={size} onRefresh={onRefresh} onLoad={onLoad}>
       <div
         className={classNames(classes, className)}
         style={{
@@ -84,7 +86,7 @@ const Waterfull = <T extends IWaterItemData>(
               itemGap={itemGap}
               getWaterfallItemPostionInfo={getWaterfallItemPostionInfo}
             >
-              {renderItem(item, itemWidth)}
+              {renderItem && renderItem(item, itemWidth)}
             </Item>
           );
         })}

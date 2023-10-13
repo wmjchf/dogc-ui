@@ -114,8 +114,9 @@ const List = (props: IListProps): React.ReactElement => {
     onTouchMove && onTouchMove(event);
     const scrollTop = event.currentTarget?.scrollTop;
     if (scrollTop > 0) {
-      const contentHeight = contentDivRef.current?.clientHeight;
-      if (scrollTop + containerSize === contentHeight) {
+      const contentHeight = contentDivRef.current?.clientHeight || 0;
+
+      if (scrollTop + containerSize >= contentHeight && !upLoading) {
         setUpLoading(true);
         if (onLoad) {
           onLoad().then((res) => {
@@ -155,8 +156,8 @@ const List = (props: IListProps): React.ReactElement => {
     onWheel && onWheel(event);
     const scrollTop = event.currentTarget?.scrollTop;
     if (scrollTop > 0) {
-      const contentHeight = contentDivRef.current?.clientHeight;
-      if (scrollTop + containerSize === contentHeight) {
+      const contentHeight = contentDivRef.current?.clientHeight || 0;
+      if (scrollTop + containerSize >= contentHeight && !upLoading) {
         setUpLoading(true);
         if (onLoad) {
           onLoad().then((res) => {
@@ -221,7 +222,10 @@ const List = (props: IListProps): React.ReactElement => {
           transition: needTransition ? `height ${transitionDuration}s` : "none",
         }}
       >
-        <span>{LOADING_MAP[loadingStatus]}</span>
+        {loadingStatus === LoadStatus.LOADING && <Loading></Loading>}
+        <span className={`${refreshClasses}-tip`}>
+          {LOADING_MAP[loadingStatus]}
+        </span>
       </div>
       <div className={contentClasses} ref={contentDivRef}>
         {children}

@@ -115,7 +115,7 @@ export const App = () => {
         showPlaceholder={true}
         position="left"
       ></Image> */}
-      {/* <Waterfall<Data>
+      <Waterfall<Data>
         listData={list}
         size={document.documentElement.clientHeight}
         columns={2}
@@ -133,7 +133,7 @@ export const App = () => {
             </div>
           );
         }}
-      ></Waterfall> */}
+      ></Waterfall>
       {/* <VirtualList
         size={document.documentElement.clientHeight}
         itemSize={100}
@@ -145,7 +145,7 @@ export const App = () => {
       {/* <DragEdit>111</DragEdit> */}
       {/* <Loading size={48} loadingWidth={5} noActiveColor="black"></Loading> */}
 
-      <VirtualList
+      {/* <VirtualList
         size={document.documentElement.clientHeight}
         estimateItemSize={100}
         listData={list1}
@@ -156,7 +156,12 @@ export const App = () => {
             </div>
           );
         }}
-      ></VirtualList>
+        onRefresh={() => {
+          return new Promise((resolve) => {
+            resolve(true);
+          });
+        }}
+      ></VirtualList> */}
     </div>
   );
 };

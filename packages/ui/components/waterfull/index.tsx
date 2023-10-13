@@ -1,6 +1,9 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import classNames from "classnames";
-import { findMinColumnIndex } from "@components/util/waterfull";
+import {
+  findMaxColumnValue,
+  findMinColumnIndex,
+} from "@components/util/waterfull";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
 import { Item, IWaterItemPosition, IWaterItemData } from "./item";
@@ -38,6 +41,7 @@ const Waterfull = <T extends IWaterItemData>(
   const classes = classNames(prefixCls);
 
   const heightArrRef = useRef<Array<number>>(new Array(columns).fill(0));
+  const [maxHeight, setMaxHeight] = useState(0);
 
   const itemWidth = useMemo(() => {
     return (width - (columns - 1) * itemGap) / columns;
@@ -50,10 +54,12 @@ const Waterfull = <T extends IWaterItemData>(
       itemWidth * (imgRatio || 0) + itemGap + (extraHeight || 0);
 
     const minHeightIndex = findMinColumnIndex(heightArrRef.current);
+
     const prevMinHeight = heightArrRef.current[minHeightIndex];
 
     heightArrRef.current[minHeightIndex] += itemHeight;
-
+    const maxHeight = findMaxColumnValue(heightArrRef.current);
+    setMaxHeight(maxHeight);
     return {
       index: minHeightIndex,
       top: prevMinHeight,
@@ -66,6 +72,7 @@ const Waterfull = <T extends IWaterItemData>(
         style={{
           width,
           ...style,
+          height: maxHeight,
         }}
       >
         {listData.map((item) => {

@@ -7,6 +7,7 @@ import React, {
 import classNames from "classnames";
 import { ICommonComponentProps } from "../type";
 import { Context } from "../config-provider/context";
+import Loading from "../loading";
 import "dogc/es/list/style/index.css";
 
 export type IListProps = {
@@ -21,6 +22,7 @@ export type IListProps = {
   fontSize?: number;
   transitionDuration?: number;
   onRefresh?: () => Promise<boolean>;
+  onLoad?: () => Promise<boolean>;
   children?: React.ReactNode;
   onTouchStart?: TouchEventHandler<HTMLDivElement>;
   onTouchMove?: TouchEventHandler<HTMLDivElement>;
@@ -62,6 +64,7 @@ const List = (props: IListProps): React.ReactElement => {
     fontSize = 12,
     transitionDuration = 0.5,
     onRefresh,
+    onLoad,
     children,
     onTouchStart,
     onTouchMove,
@@ -80,6 +83,7 @@ const List = (props: IListProps): React.ReactElement => {
   const [loadingStatus, setLoadingStatus] = useState<LoadStatus>(
     LoadStatus.NONE
   );
+  const [upLoading, setUpLoading] = useState(false);
   const LOADING_MAP: {
     [key: string]: string;
   } = {
@@ -88,8 +92,10 @@ const List = (props: IListProps): React.ReactElement => {
     [LoadStatus.LOADING]: loadingTip,
     [LoadStatus.LOAD_SUCCESS]: loadSuccessTip,
   };
+
   const minRefreshHiehgt = 60;
   const inertiaScroll = useRef<boolean>(false);
+  const contentDivRef = useRef<HTMLDivElement>(null);
 
   const resetRefresh = () => {
     setHeight(0);
@@ -108,6 +114,21 @@ const List = (props: IListProps): React.ReactElement => {
     onTouchMove && onTouchMove(event);
     const scrollTop = event.currentTarget?.scrollTop;
     if (scrollTop > 0) {
+      const contentHeight = contentDivRef.current?.clientHeight;
+      if (scrollTop + containerSize === contentHeight) {
+        setUpLoading(true);
+        if (onLoad) {
+          onLoad().then((res) => {
+            if (res) {
+              setUpLoading(false);
+            }
+          });
+        } else {
+          Promise.resolve(true).then(() => {
+            // setUpLoading(false);
+          });
+        }
+      }
       return;
     }
     const touch = event.touches[0];
@@ -132,6 +153,24 @@ const List = (props: IListProps): React.ReactElement => {
 
   const handleWheel: WheelEventHandler = (event) => {
     onWheel && onWheel(event);
+    const scrollTop = event.currentTarget?.scrollTop;
+    if (scrollTop > 0) {
+      const contentHeight = contentDivRef.current?.clientHeight;
+      if (scrollTop + containerSize === contentHeight) {
+        setUpLoading(true);
+        if (onLoad) {
+          onLoad().then((res) => {
+            if (res) {
+              setUpLoading(false);
+            }
+          });
+        } else {
+          Promise.resolve(true).then(() => {
+            // setUpLoading(false);
+          });
+        }
+      }
+    }
   };
 
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
@@ -144,7 +183,7 @@ const List = (props: IListProps): React.ReactElement => {
     if (loadingStatus === LoadStatus.CAN_LOADING) {
       setLoadingStatus(LoadStatus.LOADING);
     }
-    if (onRefresh) {
+    if (onRefresh && loadingStatus === LoadStatus.CAN_LOADING) {
       onRefresh().then((res) => {
         if (res) {
           setLoadingStatus(LoadStatus.LOAD_SUCCESS);
@@ -184,7 +223,15 @@ const List = (props: IListProps): React.ReactElement => {
       >
         <span>{LOADING_MAP[loadingStatus]}</span>
       </div>
-      <div className={contentClasses}>{children}</div>
+      <div className={contentClasses} ref={contentDivRef}>
+        {children}
+      </div>
+      {upLoading && (
+        <div className={footerclasses}>
+          <Loading></Loading>
+          <span className={`${footerclasses}-tip`}>加载中...</span>
+        </div>
+      )}
     </div>
   );
 };

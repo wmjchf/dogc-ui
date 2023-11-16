@@ -9,6 +9,7 @@ import {
   DragEdit,
   Loading,
   List,
+  SortGrid,
 } from "dogc";
 
 import Mock from "mockjs";
@@ -31,6 +32,35 @@ export const App = () => {
     },
   ]);
   const [list1, setList1] = useState([]);
+  const [data, setData] = useState([
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+    {
+      id: 4,
+    },
+    {
+      id: 5,
+    },
+    {
+      id: 6,
+    },
+    {
+      id: 7,
+    },
+    {
+      id: 8,
+    },
+    {
+      id: 9,
+    },
+  ]);
   useEffect(() => {
     setList1(
       new Array(100).fill(0).map((item, index) => {
@@ -98,7 +128,7 @@ export const App = () => {
         showPlaceholder={true}
         position="left"
       ></Image> */}
-      <Waterfall<Data>
+      {/* <Waterfall<Data>
         listData={list}
         size={document.documentElement.clientHeight}
         columns={2}
@@ -120,16 +150,7 @@ export const App = () => {
             }, 3000);
           });
         }}
-        // renderItem={(item) => {
-        //   return (
-        //     <div
-        //       style={{
-        //         width: "100%",
-        //       }}
-        //     ></div>
-        //   );
-        // }}
-      ></Waterfall>
+      ></Waterfall> */}
       {/* <VirtualList
         size={document.documentElement.clientHeight}
         itemSize={100}
@@ -158,6 +179,33 @@ export const App = () => {
           });
         }}
       ></VirtualList> */}
+      <SortGrid
+        data={data}
+        width={320}
+        gap={10}
+        render={(item) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                height: "100%",
+                background: "red",
+              }}
+            >
+              {item.id}
+            </div>
+          );
+        }}
+        itemHeight={100}
+        itemWidth={100}
+        columns={3}
+        onDragEnd={(data) => {
+          setData(data);
+        }}
+      ></SortGrid>
     </div>
   );
 };
